@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <constant name="struts.convention.default.parent.package" value="yidu-default" />
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.url.includeParams" value="none" />
+    <constant name="struts.ui.theme" value="css_xhtml" />
+    <constant name="struts.multipart.maxSize" value="-1" />
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+    <constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.i18n.reload" value="false" />
+    <constant name="struts.custom.i18n.resources" value="language.package" />
+    <constant name="struts.mapper.alwaysSelectFullNamespace" value="false" />
+    <package name="yidu-default" extends="struts-default">
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult">
+                <param name="root">data</param>
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+            </result-type>
+            <result-type name="stream" class="org.apache.struts2.dispatcher.StreamResult" />
+        </result-types>
+        <interceptors>
+             <interceptor name="errorHandle" class="org.yidu.novel.interceptor.ErrorInterceptor" />
+            <interceptor name="authCheck" class="org.yidu.novel.interceptor.AuthCheckInterceptor" /> 
+            <!--<interceptor name="logOutput" class="org.yidu.novel.interceptor.LogInterceptor" /> -->
+            <interceptor name="setLanguage" class="org.yidu.novel.interceptor.SetLanguageInterceptor" />
+            <interceptor name="mobile" class="org.yidu.novel.interceptor.MobileInterceptor" />
+            <interceptor name="generateHtmlFile" class="org.yidu.novel.interceptor.GenerateHtmlFileInterceptor" />
+            <interceptor name="singleBook" class="org.yidu.novel.interceptor.SingleBookInterceptor" />
+            <interceptor-stack name="yidu-default">
+                <!-- <interceptor-ref name="logOutput" /> 
+                <interceptor-ref name="setLanguage" />-->
+                <interceptor-ref name="defaultStack">
+                    <param name="validation.excludeMethods">back</param>
+                </interceptor-ref>
+                <interceptor-ref name="singleBook" />
+                <interceptor-ref name="errorHandle" />
+                <interceptor-ref name="generateHtmlFile" />
+                <interceptor-ref name="authCheck" /> 
+                <interceptor-ref name="mobile" />
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="yidu-default" />
+        <default-action-ref name="notFound" />
+    </package>
+</struts>

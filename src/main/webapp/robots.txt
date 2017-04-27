@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /user/
+Disallow: /download/
+Disallow: /cover/
+Disallow: /css/
+Disallow: /error/
+Disallow: /images/
+Disallow: /js/
+Disallow: /themes/
+Disallow: /txt/
+Disallow: /*?*

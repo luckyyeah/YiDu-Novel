@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="sessionFactory-setting" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="yiduDataSource" />
+		<property name="configLocation" value="classpath:/hibernate/hibernate.cfg.xml" />
+	</bean>
+
+
+	<!-- Transaction Manager -->
+	<bean id="transactionManager-setting" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory-setting" />
+	</bean>
+
+	<bean id="txInterceptor-setting" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="transactionManager-setting" />
+		</property>
+
+		<property name="transactionAttributeSources">
+			<list>
+				<bean class="org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource">
+					<property name="properties">
+						<props>
+							<prop key="execute">PROPAGATION_REQUIRED</prop>
+							<prop key="save">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+							<prop key="delete">PROPAGATION_REQUIRED</prop>
+							<prop key="find">PROPAGATION_REQUIRED</prop>
+							<prop key="findRandomRecommendArticleList">PROPAGATION_REQUIRED</prop>
+							<prop key="getCount">PROPAGATION_REQUIRED</prop>
+							<prop key="getCountPerCategory">PROPAGATION_REQUIRED</prop>
+							<prop key="getArticleListByLastUpdateTime">PROPAGATION_REQUIRED</prop>
+							<prop key="getChapterListByLastUpdateTime">PROPAGATION_REQUIRED</prop>
+							<prop key="getByNo">PROPAGATION_REQUIRED</prop>
+						</props>
+					</property>
+				</bean>
+				<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="txProxyCreator-setting" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="proxyTargetClass" value="true" />
+		<property name="beanNames">
+			<list>
+				<value>*Action</value>
+				<value>articleService</value>
+				<value>chapterService</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>txInterceptor-setting</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

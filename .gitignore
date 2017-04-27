@@ -1,0 +1,16 @@
+*.class
+
+# Package Files #
+*.war
+*.ear
+/jcs_swap
+/log
+/target
+/src/main/webapp/sitemap
+/src/main/webapp/txt
+/src/main/webapp/cover
+/src/main/webapp/html
+/files
+/sitemap
+/target
+/src/main/webapp/reader

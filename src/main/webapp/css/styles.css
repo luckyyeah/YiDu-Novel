@@ -1,0 +1,251 @@
+@charset "utf-8";
+
+body {
+	font-family: verdana, arial, sans-serif;
+	font-size: 14px;
+}
+
+.yidu-table {
+	background: #FFFFFF;
+	color: #666666;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 62.5%;
+	border-left: 1px solid #DFD8D4;
+	font-size: 12px;
+	cellpadding: 0;
+	cellspacing: 0;
+}
+
+.yidu-table caption {
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+
+.yidu-table th {
+	background: transparent url(/images/admin/table_header.gif) no-repeat scroll 0 0;
+	border-bottom: 1px solid #DFD8D4;
+	border-right: 1px solid #DFD8D4;
+	border-top: 1px solid #DFD8D4;
+	padding: 6px 6px 6px 12px;
+	text-align: left;
+	font-weight: bold;
+}
+
+.yidu-table td {
+	border-bottom: 1px solid #DFD8D4;
+	border-right: 1px solid #DFD8D4;
+	padding: 6px 6px 6px 12px;
+}
+
+.yidu-table td.highlighted {
+	background: #FFB766 none repeat scroll 0 0;
+	color: #FFFFFF;
+}
+
+.yidu-table th.fixed {
+	width: 80px;
+}
+
+.yidu-table td.fixed {
+	width: 80px;
+}
+
+.yidu-table td.odd-fixed {
+	background: #F7F5F4 none repeat scroll 0 0;
+	width: 80px;
+}
+
+.yidu-table td.odd {
+	background: #F7F5F4 none repeat scroll 0 0;
+	border-bottom: 1px solid #DFD8D4;
+	border-right: 1px solid #DFD8D4;
+	padding: 6px 6px 6px 12px;
+}
+
+/**** Pagination ****/
+th.sorted {
+	background-color: #CCC;
+}
+
+th a,th a:visited {
+	color: black;
+}
+
+th a:hover {
+	text-decoration: underline;
+	color: black;
+}
+
+th.sorted a,th.sortable a {
+	background-position: right;
+	display: block;
+	width: 100%;
+	text-decoration: none;
+}
+
+th.sortable a {
+	background-image: url(/images/admin/arrow_off.png);
+	background-repeat: no-repeat;
+	text-decoration: none;
+}
+
+th.order1 a {
+	background-image: url(/images/admin/arrow_up.png);
+	background-repeat: no-repeat;
+}
+
+th.order2 a {
+	background-image: url(/images/admin/arrow_down.png);
+	background-repeat: no-repeat;
+}
+
+tr.odd {
+	background-color: #fff
+}
+
+tr.tableRowEven,tr.even {
+	background-color: #CCC;
+}
+
+.group-1 {
+	font-weight: bold;
+	padding-bottom: 10px;
+	border-top: 1px solid black;
+}
+
+.group-2 {
+	font-style: italic;
+	border-top: 1px solid black;
+}
+
+.grouped-table tr.even {
+	background-color: #fff;
+}
+
+.grouped-table tr.odd {
+	background-color: #fff;
+}
+
+/* pagination widget */
+.pagination-label {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	color: #333333;
+}
+
+.pagination-link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #003366;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.pagination-link:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #003366;
+	text-decoration: underline;
+}
+
+.pagination-linkoff {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	color: #999999;
+}
+
+.pagination-textbox {
+	color: #333;
+	background-color: #FFFFFF;
+	border: 1px #999999 solid;
+	background-color: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	height: 18px;
+}
+
+.pagination-margin {
+	margin: 0px;
+}
+
+.ac_odd {
+	background-color: #eee;
+}
+
+.ac_over {
+	background-color: #0A246A;
+	color: white;
+}
+
+a,img {
+	text-decoration: none;
+	border: 0px;
+}
+
+.adminTable {
+	border: solid 1px #000000;
+	align: center;
+}
+
+.adminTable td {
+	border: solid 1px #000000;
+	word-break: break-all;
+}
+
+.tb-rounded {
+	width: 450px;
+	padding-top: 2px;
+}
+
+.submitButton {
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #ccc;
+	padding: 1px 10px;
+	font-weight: bold;
+	cursor: pointer;
+	color: #666;
+}
+
+.tb-rounded-upload {
+	width: 310px;
+}
+
+.footer {
+	border-top: 3px solid #CBD3DA;
+	overflow: hidden;
+	clear: both;
+	margin-top: 10px;
+}
+
+.footer .copyright {
+	line-height: 30px;
+	text-align: center;
+	color: #666;
+}
+
+.footer .copyrignt a {
+	color: #666;
+	padding: 0 8px;
+}
+
+.footer .message {
+	line-height: 30px;
+	height: 30px;
+	text-align: center;
+	color: #CCC;
+}
+
+.footer .message a {
+	color: #666;
+	padding: 0 8px;
+}
+
+.tj {
+	display: none;
+}

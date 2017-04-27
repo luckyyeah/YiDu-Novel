@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<!-- Configuration file for UrlRewriteFilter http://www.tuckey.org/urlrewrite/ -->
+<urlrewrite>
+
+	<outbound-rule encodefirst="true">
+		<from>^(.*);jsessionid=.*$</from>
+		<to>$1</to>
+	</outbound-rule>
+
+    <rule>
+        <from>^/cover/(\d*)-(\d*)-[a-z0-9A-Z]{32}(.+?)$</from>
+        <to last="true">/cover/$1/$2/$3</to>
+    </rule>
+
+	<!-- 小说列表开始 -->
+
+	<rule>
+		<from>^/list/(\d*)\.html$</from>
+		<to last="true">/articleList?category=$1</to>
+	</rule>
+	<outbound-rule>
+		<from>^/articleList\?category=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/list/$1\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/list/(\d*)/(\d*)\.html$</from>
+		<to last="true">/articleList?category=$1&amp;page=$2</to>
+	</rule>
+	<outbound-rule>
+		<from>^/articleList\?category=(\d*)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/list/$1/$2\.html</to>
+	</outbound-rule>
+
+	<!-- 小说列表结束 -->
+
+	<!-- 小说简介开始 -->
+
+	<rule>
+		<from>^/info/\d*/(\d*)\.html$</from>
+		<to last="true">/info\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/info\?subdir=(\d*)&amp;articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/info/$1/$2\.html</to>
+	</outbound-rule>
+
+	<!-- 小说简介结束 -->
+
+	<!-- 章节列表开始 -->
+
+	<rule>
+		<from>^/reader/\d*/(\d*)/index\.html$</from>
+		<to last="true">/chapterList\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/chapterList\?subdir=(\d*)&amp;articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/reader/$1/$2/index\.html</to>
+	</outbound-rule>
+
+	<!-- 章节列表结束 -->
+	<!-- VIP支付开始 -->
+
+	<rule>
+		<from>^/vip/\d*/(\d*)/(\d*)\.html$</from>
+		<to last="true">/vip\?articleno=$1&amp;chapterno=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/vip\?subdir=(\d*)&amp;articleno=(\d*)&amp;chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/vip/$1/$2/$3\.html</to>
+	</outbound-rule>
+	<!-- VIP支付结束 -->
+  <!-- 在线充值开始 -->
+
+	<rule>
+		<from>^/user/pay/\d*/(\d*)/(\d*)\.html$</from>
+		<to last="true">/user/pay\?articleno=$1&amp;chapterno=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/pay\?subdir=(\d*)&amp;articleno=(\d*)&amp;chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/pay/$1/$2/$3\.html</to>
+	</outbound-rule>
+	<!-- 在线充值结束 -->
+	  <!-- 扫码充值开始 -->
+
+	<rule>
+		<from>^/user/scanpay/(\d*)/(\d*)/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/scanpay\?articleno=$1&amp;chapterno=$2&amp;paytype=$3&amp;chargefee=$4</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/scanpay\?articleno=(\d*)&amp;chapterno=(\d*)&amp;paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/scanpay/$1/$2/$3/$4\.html</to>
+	</outbound-rule>
+	<!-- 扫码充值结束 -->
+	<!-- 单本阅读页 -->
+	<!-- 阅读页开始 -->
+
+	<rule>
+		<from>^/reader/\d*/(\d*)/(\d*)\.html$</from>
+		<to last="true">/reader\?articleno=$1&amp;chapterno=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/reader\?subdir=(\d*)&amp;articleno=(\d*)\&amp;chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/reader/$1/$2/$3\.html</to>
+	</outbound-rule>
+
+	<!-- 单本阅读页 -->
+	<outbound-rule>
+		<from>^/reader\?chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/$1\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/author/(.+?)/(\d*)\.html$</from>
+		<to last="true">/articleList\?author=$1&amp;page=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/articleList\?author=(.+?)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/author/$1/$2\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/author/(.+?)\.html$</from>
+		<to last="true">/articleList\?author=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/articleList\?author=(.+?)(;jsessionid=.*)?$</from>
+		<to last="true">/author/$1\.html</to>
+	</outbound-rule>
+	
+	<!-- tag -->
+	<rule>
+        <from>^/tag/(.+?)/(\d*)\.html$</from>
+        <to last="true">/articleList\?tag=$1&amp;page=$2</to>
+    </rule>
+
+    <outbound-rule>
+        <from>^/articleList\?tag=(.+?)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+        <to last="true">/tag/$1/$2\.html</to>
+    </outbound-rule>
+
+    <rule>
+        <from>^/tag/(.+?)\.html$</from>
+        <to last="true">/articleList\?tag=$1</to>
+    </rule>
+
+    <outbound-rule>
+        <from>^/articleList\?tag=(.+?)(;jsessionid=.*)?$</from>
+        <to last="true">/tag/$1\.html</to>
+    </outbound-rule>
+
+	<rule>
+		<from>^/search/(.+?)/(\d*)\.html$</from>
+		<to last="true">/search\?key=$1&amp;page=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/search\?key=(.+?)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/search/$1/$2\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/wanben/(\d*)\.html$</from>
+		<to last="true">/articleList\?fullflag=true&amp;page=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/articleList\?fullflag=true&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/wanben/$1\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/wanben/index.html$</from>
+		<to last="true">/articleList\?fullflag=true</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/articleList\?fullflag=true(;jsessionid=.*)?$</from>
+		<to last="true">/wanben/index\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/sitemap/index.html$</from>
+		<to last="true">/siteMap</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/siteMap(;jsessionid=.*)?$</from>
+		<to last="true">/sitemap/index\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/sitemap/index.html$</from>
+		<to last="true">/siteMap</to>
+	</rule>
+
+	<rule>
+		<from>^/user/addbookcase/(\d*)/(\d*)\.html$</from>
+		<to last="true">/user/bookcase!add\?articleno=$1&amp;chapterno=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/bookcase!add\?articleno=(\d*)&amp;chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/addbookcase/$1/$2\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/user/addbookcase/(\d*)\.html$</from>
+		<to last="true">/user/bookcase!add\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/bookcase!add\?articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/addbookcase/$1\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/user/deletebookcase/(\d*)\.html$</from>
+		<to last="true">/user/bookcase!delete\?bookcaseno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/bookcase!delete\?bookcaseno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/deletebookcase/$1\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/download/\d*/(\d*).txt$</from>
+		<to last="true">/download\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/download\?subdir=(\d*)&amp;articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/download/$1/$2.txt</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/user/vote/(\d*).html$</from>
+		<to last="true">/user/vote\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/vote\?articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/vote/$1.html</to>
+	</outbound-rule>
+
+
+	<rule>
+		<from>^/user/subscribe/(\d*).html$</from>
+		<to last="true">/user/subscribe!add\?articleno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/subscribe!add\?articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/subscribe/$1.html</to>
+	</outbound-rule>
+
+
+	<rule>
+		<from>^/top/(.+?)/(\d*)\.html$</from>
+		<to last="true">/top\?sortColumn=$1&amp;page=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/top\?sortColumn=(.+?)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/top/$1/$2\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/top/(.+?)\.html$</from>
+		<to last="true">/top\?sortColumn=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/top\?sortColumn=(.+?)(;jsessionid=.*)?$</from>
+		<to last="true">/top/$1\.html</to>
+	</outbound-rule>
+
+	<!-- 评论页 -->
+	<rule>
+		<from>^/reviewList/(\d*)/(\d*)/(\d*)\.html$</from>
+		<to last="true">/reviewList\?subdir=$1&amp;articleno=$2&amp;page=$3</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/reviewList\?subdir=(\d*)&amp;articleno=(\d*)&amp;page=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/reviewList/$1/$2/$3\.html</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/reviewList/(\d*)/(\d*)\.html$</from>
+		<to last="true">/reviewList\?subdir=$1&amp;articleno=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/reviewList\?subdir=(\d*)&amp;articleno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/reviewList/$1/$2\.html</to>
+	</outbound-rule>
+
+	<!-- 用户信息 -->
+
+	<rule>
+		<from>^/userInfo/(\d*)\.html$</from>
+		<to last="true">/userInfo\?userno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/userInfo\?userno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/userInfo/$1\.html</to>
+	</outbound-rule>
+	<!-- 分段阅读 -->
+	<rule>
+		<from>^/reader/(\d*)/(\d*)/(\d*)/(\d*)\.html$</from>
+		<to last="true">/reader\?subdir=$1&amp;articleno=$2&amp;chapterno=$3&amp;toChapterno=$4</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/reader\?subdir=(\d*)&amp;articleno=(\d*)&amp;chapterno=(\d*)&amp;toChapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/reader/$1/$2/$3/$4\.html</to>
+	</outbound-rule>
+
+	<!-- 拼音URL -->
+	<rule>
+		<from>^/(.+)/$</from>
+		<to last="true">/info\?pinyin=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/info\?pinyin=(.+)(;jsessionid=.*)?$</from>
+		<to last="true">/$1/</to>
+	</outbound-rule>
+
+	<rule>
+		<from>^/(.+)/index\.html$</from>
+		<to last="true">/chapterList\?pinyin=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/chapterList\?pinyin=(.+)(;jsessionid=.*)?$</from>
+		<to last="true">/$1/index\.html</to>
+	</outbound-rule>
+	
+
+	<rule>
+		<from>^/.+/(\d*)\.html$</from>
+		<to last="true">/reader\?chapterno=$1</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/reader\?pinyin=(.+)\&amp;chapterno=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/$1/$2\.html</to>
+	</outbound-rule>
+
+ <!--
+	<rule>
+		<name>Domain Name Check</name>
+		<condition name="host" operator="notequal">www.51yd.org</condition>
+		<condition name="host" operator="notequal">m.51yd.org</condition>
+		<from>^/(.*)</from>
+		<to type="permanent-redirect">http://www.51yd.org/$1</to>
+	</rule>
+
+	<rule>
+		<name>USER AGENT Check</name>
+		<condition name="host" operator="notequal">m.51yd.org</condition>
+		<condition name="user-agent">(android|blackberry|googlebot-mobile|iemobile|iphone|ipod|opera mobile)</condition>
+		<from>^/(.*)</from>
+		<to type="redirect">http://m.51yd.org/$1</to>
+	</rule>
+ -->
+
+</urlrewrite>
+

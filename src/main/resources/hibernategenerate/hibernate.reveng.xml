@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+
+	<table-filter match-name=".*"></table-filter>
+
+	<table name="t_article" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_article_articleno_seq</param>
+			</generator>
+			<key-column name="articleno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_bookcase" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_bookcase_bookcaseno_seq</param>
+			</generator>
+			<key-column name="bookcaseno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_chapter" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_chapter_chapterno_seq</param>
+			</generator>
+			<key-column name="chapterno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_credit_history" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_credit_history_credithistoryno_seq</param>
+			</generator>
+			<key-column name="credithistoryno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_message" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_message_messageno_seq</param>
+			</generator>
+			<key-column name="messageno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_review" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_review_reviewno_seq</param>
+			</generator>
+			<key-column name="reviewno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_system_block" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_system_block_blockno_seq</param>
+			</generator>
+			<key-column name="blockno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_user" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_user_userno_seq</param>
+			</generator>
+			<key-column name="userno" type="int"></key-column>
+		</primary-key>
+	</table>
+
+	<table name="t_subscribe" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_subscribe_subscribeno_seq</param>
+			</generator>
+			<key-column name="subscribeno" type="int"></key-column>
+		</primary-key>
+	</table>
+	<table name="t_chapter_order" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_chapter_order_chapterorderno_seq</param>
+			</generator>
+			<key-column name="chapterorderno" type="int"></key-column>
+		</primary-key>
+	</table>
+	<table name="t_order" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_order_orderid_seq</param>
+			</generator>
+			<key-column name="orderid" type="int"></key-column>
+		</primary-key>
+	</table>
+	<table name="t_charge_order" schema="public">
+		<primary-key>
+			<generator class="sequence">
+				<param name="sequence">t_charge_order_chargeorderno_seq</param>
+			</generator>
+			<key-column name="chargeorderno" type="int"></key-column>
+		</primary-key>
+	</table>
+</hibernate-reverse-engineering>

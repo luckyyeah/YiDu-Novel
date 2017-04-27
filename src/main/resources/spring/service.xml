@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="yiduServiceParent" abstract="true">
+		<property name="yiduDataSource" ref="yiduDataSource" />
+		<property name="sessionFactory" ref="sessionFactory-setting" />
+	</bean>
+
+	<bean id="userService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.UserServiceImpl" />
+	<bean id="articleService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.ArticleServiceImpl" />
+	<bean id="chapterService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.ChapterServiceImpl" />
+	<bean id="systemBlockService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.SystemBlockServiceImpl" />
+	<bean id="bookcaseService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.BookcaseServiceImpl" />
+	<bean id="messageService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.MessageServiceImpl" />
+    <bean id="cleanDeleteDataService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.CleanDeleteDataServiceImpl" />
+    <bean id="reviewService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.ReviewServiceImpl" />
+    <bean id="subscribeService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.SubscribeServiceImpl" />
+   <bean id="orderService" parent="yiduServiceParent" class="org.yidu.novel.service.impl.OrderServiceImpl" />
+</beans>

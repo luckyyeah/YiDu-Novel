@@ -5,10 +5,12 @@ import java.net.URLEncoder;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.yidu.novel.action.AjaxServiceAction.ReturnCode;
 import org.yidu.novel.action.base.AbstractPublicBaseAction;
 import org.yidu.novel.constant.YiDuConstants;
 import org.yidu.novel.entity.TUser;
@@ -27,7 +29,7 @@ import org.yidu.novel.utils.WeixinUtils;
  * @version 1.1.9
  * @author shinpa.you
  */
-public class WXLoginAction extends AbstractPublicBaseAction {
+public class PayCallBackZZFAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -64,16 +66,23 @@ public class WXLoginAction extends AbstractPublicBaseAction {
 
 	@SkipValidation
     @Override
-    @Action(value = "wxlogin")
+    @Action(value = "payzzfcallback")
     public String execute() {
         logger.debug("execute normally end.");
-        	String backUri ="http://wxlogin.meilikeji.cn/getopenid";
-        
-        String url;
 				try {
-					url = WeixinUtils.buildOAuthUrl(backUri);
-					 this.setForwardUrl(url);
-				} catch (UnsupportedEncodingException e) {
+					  Thread.sleep(1000);
+					 	TUser user = new TUser();
+    	        //修改金额
+    	        user = userService.getByNo(LoginManager.getLoginUser().getUserno());
+    	        // 登录处理
+    	        LoginManager.doLogin(user);
+    	        HttpSession session =  LoginManager.getSession(false);
+    	        if (Utils.isDefined(session)) {
+    	        	String forwardUrl =(String)session.getAttribute("paypreurl");
+    	        	this.setForwardUrl(forwardUrl);
+    	        }
+    	        
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

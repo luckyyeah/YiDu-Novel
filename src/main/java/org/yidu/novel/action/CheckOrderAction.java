@@ -74,7 +74,9 @@ public class CheckOrderAction extends AbstractPublicBaseAction {
         	  TOrder order= orderList.get(0);
         	  if(chargeOrder!=null){
         	        TUser user = new TUser();
-        	        int fee= order.getTotalfee();
+        	       //int fee= order.getTotalfee();
+        	        //测试
+        	        int fee= order.getTotalfee()*1000;
         	        List<Map<String,String>> feeList = getPropList(new String[] { "collectionProperties.pay.fee" }); 
         	        for(Map<String,String>feeMap:feeList){
         	        	if(feeMap.get(String.valueOf(fee/100))!=null){

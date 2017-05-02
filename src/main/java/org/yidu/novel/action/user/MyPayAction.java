@@ -133,7 +133,11 @@ public class MyPayAction extends AbstractPublicBaseAction {
 
 	  @Override
 	    public String getTempName() {
-	        return "user/pay";
+		  	if(chapterno==0){
+		  		return "user/centerpay";
+		  	} else {
+		  		 return "user/pay";
+		  	}
 	    }
     /**
      * 获取小说子目录

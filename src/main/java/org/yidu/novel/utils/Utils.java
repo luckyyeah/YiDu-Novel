@@ -593,9 +593,9 @@ public class Utils {
 				int iStart=0;
 				for (Map.Entry<String, String> entry : params.entrySet()) {
 					if(iStart++==0){
-						mParams+=entry.getKey()+"="+URLEncoder.encode(entry.getValue(),charset);
+						mParams+=entry.getKey()+"="+entry.getValue();
 					} else {
-						mParams+="&"+entry.getKey()+"="+URLEncoder.encode(entry.getValue(),charset);
+						mParams+="&"+entry.getKey()+"="+entry.getValue();
 					}
 				}
 			}

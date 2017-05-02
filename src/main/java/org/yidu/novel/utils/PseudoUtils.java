@@ -180,8 +180,8 @@ public class PseudoUtils {
      */
     public static String fetchKeywords(String content) {
         StringBuffer keywords = new StringBuffer("本文关键词统计： ");
-
-        String text = content.replaceAll("&nbsp;", "").replaceAll("<.+?>", "");
+        return content;
+/*        String text = content.replaceAll("&nbsp;", "").replaceAll("<.+?>", "");
         IKSegmentation segmentation = new IKSegmentation(new StringReader(text), false);
         Lexeme lexeme = null;
         Map<String, Integer> kwCount = new HashMap<String, Integer>();
@@ -222,7 +222,7 @@ public class PseudoUtils {
         } else {
             content = content + keywords;
         }
-        return content;
+        return content;*/
     }
 
 }

@@ -88,6 +88,18 @@
 		<to last="true">/user/pay/$1/$2/$3\.html</to>
 	</outbound-rule>
 	<!-- 在线充值结束 -->
+  <!-- 用户中心在线充值开始 -->
+
+	<rule>
+		<from>^/user/centerpay/centerpay.html$</from>
+		<to last="true">/user/centerpay</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/centerpay</from>
+		<to last="true">/user/centerpay/centerpay.html</to>
+	</outbound-rule>
+	<!-- 在线充值结束 -->
 	  <!-- 扫码充值开始 -->
 
 	<rule>
@@ -100,6 +112,42 @@
 		<to last="true">/user/scanpay/$1/$2/$3/$4\.html</to>
 	</outbound-rule>
 	<!-- 扫码充值结束 -->
+<!-- 掌宜支付充值开始 -->
+
+	<rule>
+		<from>^/user/zzfpay/(\d*)/(\d*)/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/zzfpay\?articleno=$1&amp;chapterno=$2&amp;paytype=$3&amp;chargefee=$4</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/zzfpay\?articleno=(\d*)&amp;chapterno=(\d*)&amp;paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/zzfpay/$1/$2/$3/$4\.html</to>
+	</outbound-rule>
+	<!-- 掌宜支付充值充值结束 -->
+	  <!-- 用户中心扫码充值开始 -->
+
+	<rule>
+		<from>^/user/centerscanpay/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/centerscanpay\?paytype=$1&amp;chargefee=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/centerscanpay\?paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/centerscanpay/$1/$2/.html</to>
+	</outbound-rule>
+	<!-- 扫码充值结束 -->
+		  <!-- 用户中心掌宜支付充值开始 -->
+
+	<rule>
+		<from>^/user/centerzzfpay/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/centerzzfpay\?paytype=$1&amp;chargefee=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/centerzzfpay\?paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/centerzzfpay/$1/$2/.html</to>
+	</outbound-rule>
+	<!-- 扫码掌宜支付充值结束 -->
 	<!-- 单本阅读页 -->
 	<!-- 阅读页开始 -->
 

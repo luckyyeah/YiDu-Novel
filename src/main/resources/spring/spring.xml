@@ -11,4 +11,5 @@
 	<import resource="service.xml" />
 	<import resource="tx.xml" />
 	<import resource="batch.xml" />
+	
 </beans>

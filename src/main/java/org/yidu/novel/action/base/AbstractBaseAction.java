@@ -51,7 +51,7 @@ import com.opensymphony.xwork2.interceptor.ValidationWorkflowAware;
         @Result(name = AbstractBaseAction.JSON_RESULT, type = "json"),
         @Result(name = AbstractBaseAction.GO_TOP, location = org.yidu.novel.action.IndexAction.URL, type = "redirect"),
         @Result(name = AbstractBaseAction.GOTO_LOGIN, location = org.yidu.novel.action.LoginAction.URL, type = "redirect"),
-        @Result(name = AbstractBaseAction.GOTO_WX_LOGIN, location ="${forwardUrl}", type = "redirect"),
+        @Result(name = AbstractBaseAction.GOTO_REDIRECT, location ="${forwardUrl}", type = "redirect"),
         @Result(name = AbstractBaseAction.REDIRECT, location = "${backUrl}", type = "redirect"),
         @Result(name = AbstractBaseAction.HTTPHEADER404, type = "httpheader", params = { "error", "404" }) })
 public abstract class AbstractBaseAction extends ActionSupport implements ValidationWorkflowAware {
@@ -74,7 +74,7 @@ public abstract class AbstractBaseAction extends ActionSupport implements Valida
     /**
      * 跳转登录页结果类型
      */
-    public static final String GOTO_WX_LOGIN = "GOTO_WX_Login";
+    public static final String GOTO_REDIRECT = "GOTO_Redirect";
     /**
      * 重定向结果类型
      */
@@ -326,7 +326,17 @@ public abstract class AbstractBaseAction extends ActionSupport implements Valida
     public void setBackUrl(String backUrl) {
         this.backUrl = backUrl;
     }
+    /**
+     * 跳转URL
+     */
+    private String forwardUrl;
+  public String getForwardUrl() {
+		return forwardUrl;
+	}
 
+	public void setForwardUrl(String forwardUrl) {
+		this.forwardUrl = forwardUrl;
+	}
     /**
      * 回退处理
      * 

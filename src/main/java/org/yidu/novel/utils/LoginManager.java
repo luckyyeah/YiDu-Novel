@@ -38,7 +38,7 @@ public class LoginManager {
      *            是否新建
      * @return Session对象
      */
-    private static HttpSession getSession(final boolean create) {
+    public static HttpSession getSession(final boolean create) {
         return ServletActionContext.getRequest().getSession(create);
     }
 

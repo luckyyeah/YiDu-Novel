@@ -114,6 +114,12 @@
             <li>用户登录</li>
             <#elseif pageType == 12>
             <li>用户注册</li>
+            <#elseif pageType == 25>
+            <li>用户中心</li>
+            <#elseif pageType == 50>
+            <li>章节购买</li>
+            <#elseif pageType == 51>
+            <li>充值中心</li>
             </#if>
             <li><a href="${contextPath}/"></a></li>
             <li><a href="${encodeURL("/user/center")}"></a></li>

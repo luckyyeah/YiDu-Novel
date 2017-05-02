@@ -9,7 +9,7 @@
 
 <#macro content>
    <div class="Payone">
-   		   您好：<#if loginUser.loginid?length gt 20 >${loginUser.loginid?substring(0,20)!}...!<#else>${loginUser.loginid}! </#if>  余额：<b><#if loginUser.chargefee ??>${loginUser.chargefee?c}<#else>0</#if></b>书币
+   		您好：<#if loginUser.loginid?length gt 20 >${loginUser.loginid?substring(0,20)!}...!<#else>${loginUser.loginid}! </#if>  余额：<b><#if loginUser.chargefee ??>${loginUser.chargefee?c}<#else>0</#if></b>书币
    </div>
    <div class="one pay_title"><h3>充值金额</h3>1元=100书币</div>
         <div class="hd">
@@ -75,7 +75,7 @@ function submitpay()
 	}
 	//var paytype = 'alipay';
 	paytype=$(".on02").attr('data-type');
-	var url = "/user/zzfpay/${articleno?c}/${chapterno?c}";
+	var url = "/user/centerzzfpay";
 	if(paytype == 'alipay')
 	{
 		 url+= "/d/"+paynum+".html";

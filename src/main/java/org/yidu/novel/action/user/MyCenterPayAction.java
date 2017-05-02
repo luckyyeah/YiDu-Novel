@@ -1,19 +1,12 @@
 package org.yidu.novel.action.user;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.yidu.novel.action.base.AbstractPublicBaseAction;
-import org.yidu.novel.bean.PayReturnBean;
 import org.yidu.novel.constant.YiDuConstants;
-import org.yidu.novel.entity.TChargeOrder;
-import org.yidu.novel.utils.DateUtils;
-import org.yidu.novel.utils.LoginManager;
-import org.yidu.novel.utils.Utils;
-
-import com.alibaba.fastjson.JSON;
 
 /**
  * <p>
@@ -24,8 +17,8 @@ import com.alibaba.fastjson.JSON;
  * @version 1.1.9
  * @author shinpa.you
  */
-@Action(value = "scanpay")
-public class ScanPayAction extends AbstractPublicBaseAction {
+@Action(value = "centerpay")
+public class MyCenterPayAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -33,9 +26,8 @@ public class ScanPayAction extends AbstractPublicBaseAction {
     /**
      * 功能名称。
      */
-    public static final String NAME = "scanpay";
-    public static final String SCAN_REQUEST_URL = "http://pro.jkys567.com:888/lpay/scanpay/gateway";
-    public static final String MCH_ID = "10009";
+    public static final String NAME = "centerpay";
+
     /**
      * 访问URL。
      */
@@ -47,9 +39,7 @@ public class ScanPayAction extends AbstractPublicBaseAction {
     private String chaptername;
     private Date postdate;
     private Integer chargefee;
-    private String paytype;
-    private String codeimgurl;
-    private String orderno;    
+    private List<Map<String,String>> feeList;   
     public int getChapterno() {
         return chapterno;
     }
@@ -110,28 +100,17 @@ public class ScanPayAction extends AbstractPublicBaseAction {
 	public void setChargefee(Integer chargefee) {
 		this.chargefee = chargefee;
 	}
-	public String getPaytype() {
-		return paytype;
+
+
+
+
+
+	public List<Map<String, String>> getFeeList() {
+		return feeList;
 	}
 
-	public void setPaytype(String paytype) {
-		this.paytype = paytype;
-	}
-
-	public String getCodeimgurl() {
-		return codeimgurl;
-	}
-
-	public void setCodeimgurl(String codeimgurl) {
-		this.codeimgurl = codeimgurl;
-	}
-
-	public String getOrderno() {
-		return orderno;
-	}
-
-	public void setOrderno(String orderno) {
-		this.orderno = orderno;
+	public void setFeeList(List<Map<String, String>> feeList) {
+		this.feeList = feeList;
 	}
 
 	@Override
@@ -139,35 +118,8 @@ public class ScanPayAction extends AbstractPublicBaseAction {
         logger.debug("loadData start.");
         // 初始化种别下拉列表选项
        // initCollections(new String[] { "collectionProperties.pay.fee" });
-        //feeList = getPropList(new String[] { "collectionProperties.pay.fee" }); 
-        String rand= Utils.getRandomString(0,999999,6);
-        String time= DateUtils.getTimes();
-        orderno = paytype.toString()+time+rand;
-				Map<String, String> params =new HashMap<String, String>();
-				params.put("mch_id", MCH_ID);
-				//params.put("total_fee",String.valueOf(chargefee*100));
-				params.put("total_fee",String.valueOf(chargefee/10));
-				params.put("out_trade_no", orderno);
-				if("d".equals(paytype.toString())){
-					params.put("pay_type", "2");
-				}else{
-					params.put("pay_type", "1");
-				}
-				String returnData= Utils.doPost(SCAN_REQUEST_URL, params,"utf-8");
-				logger.debug(returnData);
-			  PayReturnBean payReturnBean=  JSON.parseObject(returnData, PayReturnBean.class);
-			  if("0".equals(payReturnBean.getResult_code())){
-				   this.setCodeimgurl(payReturnBean.getCode_img_url());
-				   TChargeOrder tChargeOrder =new TChargeOrder();
-				   tChargeOrder.setFee(chargefee*100);
-				   tChargeOrder.setOrderno(orderno);
-				   tChargeOrder.setUserno(LoginManager.getLoginUser().getUserno());
-				   tChargeOrder.setStatus(-1);
-				   tChargeOrder.setModifytime(new Date());
-				   orderService.save(tChargeOrder);
-			  }else{
-				  this.setCodeimgurl("");
-			  }
+        feeList = getPropList(new String[] { "collectionProperties.pay.fee" }); 
+
         logger.debug("loadData normally end.");
     }
 
@@ -181,11 +133,10 @@ public class ScanPayAction extends AbstractPublicBaseAction {
 
 	  @Override
 	    public String getTempName() {
-	        
-	        if(chapterno==0){
-		  		return "user/centerscanpay";
+		  	if(chapterno==0){
+		  		return "user/centerpay";
 		  	} else {
-		  		return "user/scanpay";
+		  		 return "user/pay";
 		  	}
 	    }
     /**

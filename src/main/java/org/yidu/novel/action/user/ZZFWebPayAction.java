@@ -4,16 +4,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.yidu.novel.action.base.AbstractPublicBaseAction;
 import org.yidu.novel.bean.PayReturnBean;
 import org.yidu.novel.constant.YiDuConstants;
 import org.yidu.novel.entity.TChargeOrder;
+import org.yidu.novel.entity.TUser;
 import org.yidu.novel.utils.DateUtils;
 import org.yidu.novel.utils.LoginManager;
+import org.yidu.novel.utils.MD5;
 import org.yidu.novel.utils.Utils;
 
-import com.alibaba.fastjson.JSON;
+
 
 /**
  * <p>
@@ -24,8 +28,8 @@ import com.alibaba.fastjson.JSON;
  * @version 1.1.9
  * @author shinpa.you
  */
-@Action(value = "scanpay")
-public class ScanPayAction extends AbstractPublicBaseAction {
+@Action(value = "zzfpay")
+public class ZZFWebPayAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -33,9 +37,18 @@ public class ScanPayAction extends AbstractPublicBaseAction {
     /**
      * 功能名称。
      */
-    public static final String NAME = "scanpay";
-    public static final String SCAN_REQUEST_URL = "http://pro.jkys567.com:888/lpay/scanpay/gateway";
-    public static final String MCH_ID = "10009";
+    public static final String NAME = "zzfypay";
+    public static final String PAY_REQUEST_URL = "http://pay.csl2016.cn:8000/sp/theThirdPayWapEntrance.e?";
+    public static final String MCH_ID = "1000100020001174";
+    public static final String SECRET_KEY = "BB7F30347DC144DDA1D754AE0827D62D";
+    public static final String APP_ID = "3060";
+    public static final String QN = "zyap3060_56449_100";
+    public static final String CURRENCY_WX = "1000200010000000";
+    public static final String CURRENCY_ALI = "1000200020000000"; 
+    public static final String PAY_MODE_WX = "5";
+    public static final String PAY_MODE_ALI= "2";
+    public static final String NOTIFY_URL = "http://wxlogin.meilikeji.cn/payzzfcallback";
+    
     /**
      * 访问URL。
      */
@@ -135,7 +148,7 @@ public class ScanPayAction extends AbstractPublicBaseAction {
 	}
 
 	@Override
-    protected void loadData() {
+    public String execute() {
         logger.debug("loadData start.");
         // 初始化种别下拉列表选项
        // initCollections(new String[] { "collectionProperties.pay.fee" });
@@ -144,31 +157,47 @@ public class ScanPayAction extends AbstractPublicBaseAction {
         String time= DateUtils.getTimes();
         orderno = paytype.toString()+time+rand;
 				Map<String, String> params =new HashMap<String, String>();
-				params.put("mch_id", MCH_ID);
-				//params.put("total_fee",String.valueOf(chargefee*100));
-				params.put("total_fee",String.valueOf(chargefee/10));
-				params.put("out_trade_no", orderno);
-				if("d".equals(paytype.toString())){
-					params.put("pay_type", "2");
-				}else{
-					params.put("pay_type", "1");
+				String url = PAY_REQUEST_URL;
+			  url += "partnerId="+MCH_ID;
+				String fee= String.valueOf(chargefee/10);
+				//params.put("money",String.valueOf(chargefee*100));
+			  url += "&money="+fee;
+				url += "&appId="+APP_ID;
+				url += "&qn="+QN;
+				String times= DateUtils.getTimes();
+				url += "&times="+times;
+				String currency="";
+				if("d".equals(paytype)){
+					url += "&currency="+CURRENCY_ALI;
+					currency= CURRENCY_ALI;
+					url += "&paymode="+PAY_MODE_ALI;
+				} else {
+					url += "&currency="+CURRENCY_WX;
+					currency= CURRENCY_WX;
+					url += "&paymode="+PAY_MODE_WX;					
 				}
-				String returnData= Utils.doPost(SCAN_REQUEST_URL, params,"utf-8");
-				logger.debug(returnData);
-			  PayReturnBean payReturnBean=  JSON.parseObject(returnData, PayReturnBean.class);
-			  if("0".equals(payReturnBean.getResult_code())){
-				   this.setCodeimgurl(payReturnBean.getCode_img_url());
-				   TChargeOrder tChargeOrder =new TChargeOrder();
-				   tChargeOrder.setFee(chargefee*100);
-				   tChargeOrder.setOrderno(orderno);
-				   tChargeOrder.setUserno(LoginManager.getLoginUser().getUserno());
-				   tChargeOrder.setStatus(-1);
-				   tChargeOrder.setModifytime(new Date());
-				   orderService.save(tChargeOrder);
-			  }else{
-				  this.setCodeimgurl("");
-			  }
-        logger.debug("loadData normally end.");
+				url += "&appFeeName="+"VIP";
+				url += "&cpparam="+orderno;
+				String sign =MD5.md5(MCH_ID+APP_ID+currency+fee+times+SECRET_KEY);
+				url += "&sign="+sign;
+				url += "&notifyUrl="+NOTIFY_URL;
+			  //PayReturnBean payReturnBean=  JSON.parseObject(returnData, PayReturnBean.class);
+			//  if("0".equals(payReturnBean.getResult_code())){
+			   TChargeOrder tChargeOrder =new TChargeOrder();
+			   tChargeOrder.setFee(chargefee*100);
+			   tChargeOrder.setOrderno(orderno);
+			   tChargeOrder.setUserno(LoginManager.getLoginUser().getUserno());
+			   tChargeOrder.setStatus(-1);
+			   tChargeOrder.setModifytime(new Date());
+			   orderService.save(tChargeOrder);
+			  
+        HttpSession session =  LoginManager.getSession(false);
+        if (Utils.isDefined(session)) {
+        	session.setAttribute("paypreurl", "/vip/"+getSubDir()+"/"+articleno+"/"+chapterno+".html");
+        }
+			   this.setForwardUrl(url);
+        logger.debug("web pay normally end.");
+        return GOTO_REDIRECT;
     }
 
 
@@ -196,5 +225,11 @@ public class ScanPayAction extends AbstractPublicBaseAction {
     @Deprecated
     public int getSubDir() {
         return articleno / YiDuConstants.SUB_DIR_ARTICLES;
-    }  
+    }
+
+	@Override
+	protected void loadData() {
+		// TODO Auto-generated method stub
+		
+	}  
 }

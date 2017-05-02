@@ -278,6 +278,10 @@
 		
         });
 			function checkVipReader(_chapterno){
+			 if(_userid==0){
+			 		location.href = "/login";
+			 		return;
+			 }
 				$.get("${encodeURL("/checkviporder")}", $.param({chapterno: _chapterno })
 				            , function (res) {
 						var link = "/reader/"+Math.floor(_articleno/1000)+"/"+_articleno+"/"+_chapterno+".html";

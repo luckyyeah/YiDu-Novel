@@ -11,8 +11,8 @@
                 <p>发布时间： <#if postdate ??>${postdate}<#else>0</#if></p>
                 <p>章节字数： <#if size ??>${size}<#else>0</#if>字</p>
                 <p>本章价格： <em class="price">${fee}</em>书币</p>
-                <p>账户余额： <em class="price"><#if loginUser.chargefee ??>${loginUser.chargefee}<#else>0</#if></em>书币</p>
-              	<#if (loginUser.chargefee> fee) >
+                <p>账户余额： <em class="price"><#if loginUser?exists && loginUser.chargefee ??>${loginUser.chargefee}<#else>0</#if></em>书币</p>
+              	<#if loginUser?exists && (loginUser.chargefee> fee) >
                <a class="button blue r3" href="javascript:goPay()">购买</a>
                <#else>
                 <a class="button blue r3" href="${encodeURL("/user/pay/${subDir?c}/${articleno?c}/${chapterno?c}.html")}">充值</a>
@@ -22,7 +22,12 @@
     </div>
 
 <script type="text/javascript">
-          _userno = parseInt(${loginUser.userno?c});
+          _userno = 0;
+         <#if loginUser?? >
+            _userno = parseInt(${loginUser.userno?c});
+        <#else>
+        		location.href = "/login";
+        </#if>
            _chapterno = parseInt(${chapterno?c});
            _articleno =parseInt(${articleno?c});
              _fee = parseInt(${fee?c});

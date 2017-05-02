@@ -84,8 +84,10 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
        TUser user =userService.findByOpenid(openid);
        if(user==null){
     	     user = new TUser();
+    	     String rand= Utils.getRandomString(0,999999,10);
     	     user.setOpenid(openid);
-           user.setLoginid(openid);
+    	     user.setChargefee(0);
+           user.setLoginid("wx_"+rand);
            user.setDeleteflag(false);
            user.setRegdate(new Date());
            user.setLastlogin(new Date());
@@ -93,14 +95,14 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
            user.setType(YiDuConstants.UserType.NORMAL_USER);
            user.setActivedflag(true);
     	     userService.save(user);
-           // 正常登录
-           LoginManager.doLogin(user);
-           // 更新用户最后登录时间
-           user.setLastlogin(new Date());
-           Cookie cookie = CookieUtils.addUserCookie(user);
-           // 添加cookie到response中
-           ServletActionContext.getResponse().addCookie(cookie);
-       }
+       } 
+       // 正常登录
+       LoginManager.doLogin(user);
+       // 更新用户最后登录时间
+       user.setLastlogin(new Date());
+       Cookie cookie = CookieUtils.addUserCookie(user);
+       // 添加cookie到response中
+       ServletActionContext.getResponse().addCookie(cookie);
 		 
         return GO_TOP;
     }

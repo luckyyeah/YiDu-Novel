@@ -3,7 +3,9 @@ package org.yidu.novel.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.beans.BeanUtils;
+import org.yidu.novel.action.AjaxServiceAction.ReturnCode;
 import org.yidu.novel.action.base.AbstractPublicBaseAction;
 import org.yidu.novel.cache.CacheManager;
 import org.yidu.novel.constant.YiDuConfig;
@@ -11,6 +13,9 @@ import org.yidu.novel.constant.YiDuConstants;
 import org.yidu.novel.dto.ChapterDTO;
 import org.yidu.novel.entity.TArticle;
 import org.yidu.novel.entity.TChapter;
+import org.yidu.novel.entity.TChapterOrder;
+import org.yidu.novel.utils.Const;
+import org.yidu.novel.utils.LoginManager;
 import org.yidu.novel.utils.Utils;
 
 /**
@@ -60,7 +65,10 @@ public class ReaderAction extends AbstractPublicBaseAction {
      * 小说内容
      */
     private TArticle article;
-
+    /**
+     * 跳转URL
+     */
+    private String forwardUrl;
     /**
      * 全文阅读内容
      */
@@ -200,6 +208,21 @@ public class ReaderAction extends AbstractPublicBaseAction {
         return "reader";
     }
 
+    @SkipValidation
+    @Override
+    public String execute() {
+    	logger.debug("execute start.");
+    if(chapterService.checkVipByNo(articleno, chapterno, Const.VIP_START_NO)){
+        List<TChapterOrder>  vipOrderList= orderService.findVipOrder(LoginManager.getLoginUser().getUserno(),chapterno);
+        if(vipOrderList.size()<=0){
+        	  String backUrl = "/vip/"+(articleno / YiDuConstants.SUB_DIR_ARTICLES)+"/"+articleno+"/"+chapterno+".html";;
+        		this.setForwardUrl(backUrl);
+        		return GOTO_REDIRECT;
+        }
+    }
+    	loadData();
+    	return MOBILE_FREEMARKER;
+    }
     @Override
     protected void loadData() {
         logger.debug("loadData start.");
@@ -253,7 +276,7 @@ public class ReaderAction extends AbstractPublicBaseAction {
             chapter.setContent(Utils.getContext(chapter, true,
                     YiDuConstants.yiduConf.getBoolean(YiDuConfig.ENABLE_PSEUDO, false)));
         }
-
+ 
         // 更新统计信息
         if (chapter != null && chapter.getArticleno() != 0) {
             article = CacheManager.getObject(CacheManager.CacheKeyPrefix.CACHE_KEY_ARTICEL_PREFIX,

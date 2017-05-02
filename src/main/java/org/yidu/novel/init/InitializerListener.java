@@ -88,10 +88,13 @@ public class InitializerListener implements ServletContextListener {
         WebApplicationContext webApplicationContext = (WebApplicationContext) arg0.getServletContext().getAttribute(
                 WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         StdScheduler schedulerFactory = (StdScheduler) webApplicationContext.getBean("schedulerFactory");
+
         // 关闭schedulerFactory
         if (schedulerFactory != null) {
+
             schedulerFactory.shutdown();
         }
+
         // 休息2秒，等待结束
         try {
             Thread.sleep(2000);

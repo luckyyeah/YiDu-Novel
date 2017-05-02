@@ -21,7 +21,9 @@
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/log4j.properties</param-value>
 	</context-param>
-
+ <listener>
+   <listener-class>org.yidu.novel.Listener.JobListener</listener-class>
+ </listener>
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>

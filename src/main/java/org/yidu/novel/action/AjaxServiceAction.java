@@ -27,6 +27,7 @@ import org.yidu.novel.entity.TChapter;
 import org.yidu.novel.entity.TChapterOrder;
 import org.yidu.novel.entity.TSubscribe;
 import org.yidu.novel.entity.TUser;
+import org.yidu.novel.utils.Const;
 import org.yidu.novel.utils.CookieUtils;
 import org.yidu.novel.utils.LoginManager;
 import org.yidu.novel.utils.Pagination;
@@ -528,6 +529,7 @@ public class AjaxServiceAction extends AbstractPublicBaseAction {
         user.setPassword(Utils.convert2MD5(password));
         user.setType(YiDuConstants.UserType.NORMAL_USER);
         user.setActivedflag(true);
+        user.setChargefee(0);
         // 注册用户登录
         this.userService.save(user);
         // 登录处理
@@ -940,13 +942,14 @@ public class AjaxServiceAction extends AbstractPublicBaseAction {
             }
         }
         //设置VIP标示80章节开始
-        if(startPageNo>80){
-            for(int i=0;i<chapterList.size();i++){
-            	TChapter tChapter =chapterList.get(i);
-            	tChapter.setIsvip(true);
-            	tChapter =chapterList.set(i, tChapter);
-            }
+        for(int i=0;i<chapterList.size();i++){
+        	  if((startPageNo+i)>=Const.VIP_START_NO){
+		        	TChapter tChapter =chapterList.get(i);
+		        	tChapter.setIsvip(true);
+		        	tChapter =chapterList.set(i, tChapter);
+        	  }
         }
+       
         dto.setItems(chapterList);
         if (articleno != 0) {
             articleService.updateVisitStatistic(articleno);

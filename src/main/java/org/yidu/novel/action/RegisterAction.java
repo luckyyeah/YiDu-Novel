@@ -175,7 +175,7 @@ public class RegisterAction extends AbstractPublicBaseAction {
         user.setPassword(Utils.convert2MD5(password));
         user.setType(YiDuConstants.UserType.NORMAL_USER);
         user.setModifytime(new Date());
-
+        user.setChargefee(0);
         // 是否开启邮箱验证
         if (YiDuConstants.yiduConf.getBoolean(YiDuConfig.ENABLE_MAIL_AUTH, false)) {
             // 开启的话发邮件结束

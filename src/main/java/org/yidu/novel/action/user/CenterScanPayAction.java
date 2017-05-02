@@ -24,8 +24,8 @@ import com.alibaba.fastjson.JSON;
  * @version 1.1.9
  * @author shinpa.you
  */
-@Action(value = "scanpay")
-public class ScanPayAction extends AbstractPublicBaseAction {
+@Action(value = "centerscanpay")
+public class CenterScanPayAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */

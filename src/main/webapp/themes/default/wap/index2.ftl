@@ -40,30 +40,29 @@
             </ul>
         </div>
     </div>
-   <#list blocks?keys as key>
-    
-    <#if recommendblock?exists && key=="last_update_list_mobile">
+
+    <#if recommendblock?exists>
           <@recommendblock articleList=blocks.last_update_list_mobile title="最近更新" id="1" style="m5"/>
     </#if>
     
-    <#if recommendblock?exists && key=="index_yanqing_tuijian">
-          <@recommendblock articleList=blocks.index_yanqing_tuijian title="火辣H文" id="2" style="m10"/>
+    <#if recommendblock?exists>
+          <@recommendblock articleList=blocks.index_yanqing_tuijian title="热门言情" id="2" style="m10"/>
     </#if>
     
-     <#if recommendblock?exists  && key=="index_xuanhuan_tuijian">
+     <#if recommendblock?exists>
           <@recommendblock articleList=blocks.index_xuanhuan_tuijian title="热门玄幻" id="3" style="m10"/>
     </#if>
     
-     <#if recommendblock?exists   && key=="index_junshi_tuijian">
+     <#if recommendblock?exists>
           <@recommendblock articleList=blocks.index_junshi_tuijian title="热门军事" id="4" style="m10"/>
     </#if>
     
-     <#if recommendblock?exists && key=="index_kongbu_tuijian">
+     <#if recommendblock?exists>
           <@recommendblock articleList=blocks.index_kongbu_tuijian title="热门恐怖" id="5" style="m10"/>
     </#if>
     
-     <#if recommendblock?exists  && key=="index_wuxia_tuijian">
+     <#if recommendblock?exists>
           <@recommendblock articleList=blocks.index_wuxia_tuijian title="热门武侠" id="6" style="m10"/>
     </#if>
-	</#list>
+
 </#macro> 

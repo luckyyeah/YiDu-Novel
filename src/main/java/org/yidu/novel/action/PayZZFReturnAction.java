@@ -1,38 +1,17 @@
 package org.yidu.novel.action;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.ServletActionContext;
+
 import org.apache.struts2.convention.annotation.Action;
-import org.springframework.beans.BeanUtils;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.yidu.novel.action.base.AbstractPublicBaseAction;
-import org.yidu.novel.bean.ArticleSearchBean;
-import org.yidu.novel.bean.BookcaseSearchBean;
-import org.yidu.novel.bean.ChapterSearchBean;
-import org.yidu.novel.bean.SubscribeSearchBean;
-import org.yidu.novel.bean.UserSearchBean;
-import org.yidu.novel.cache.ArticleCountManager;
-import org.yidu.novel.cache.CacheManager;
-import org.yidu.novel.constant.YiDuConfig;
 import org.yidu.novel.constant.YiDuConstants;
-import org.yidu.novel.dto.JsonInfoDTO;
-import org.yidu.novel.entity.TArticle;
-import org.yidu.novel.entity.TBookcase;
-import org.yidu.novel.entity.TChapter;
-import org.yidu.novel.entity.TChapterOrder;
-import org.yidu.novel.entity.TChargeOrder;
 import org.yidu.novel.entity.TOrder;
-import org.yidu.novel.entity.TSubscribe;
-import org.yidu.novel.entity.TUser;
-import org.yidu.novel.utils.CookieUtils;
-import org.yidu.novel.utils.LoginManager;
-import org.yidu.novel.utils.Pagination;
-import org.yidu.novel.utils.Utils;
+import org.yidu.novel.utils.DateUtils;
 
 /**
  * 
@@ -44,8 +23,8 @@ import org.yidu.novel.utils.Utils;
  * @version 1.1.9
  * @author shinpa.you
  */
-@Action(value = "payreturn")
-public class PayReturnServiceAction extends AbstractPublicBaseAction {
+@Action(value = "zzfpayreturn")
+public class PayZZFReturnAction extends AbstractPublicBaseAction implements ServletResponseAware{
     /**
      * 串行化版本统一标识符
      */
@@ -55,18 +34,18 @@ public class PayReturnServiceAction extends AbstractPublicBaseAction {
     /**
      * 订单号
      */
-    private String out_trade_no;
+    private String cporderid;
    
     /**
      * 平台订单号
      */
-    private String transaction_id;
+    private String orderid;
    
     
     /**
      * 交易金额
      */
-    private int total_fee;
+    private int appfee;
  
     /**
      * 支付完成时间
@@ -83,37 +62,69 @@ public class PayReturnServiceAction extends AbstractPublicBaseAction {
      */
     private int status;
     
+    private String feemode;
     /**
      * 交易金额
      */
     private int pay_type;
     
     
+    private javax.servlet.http.HttpServletResponse response;
+    // 获得HttpServletResponse对象
+    public void setServletResponse(HttpServletResponse response)
+    {
+        this.response = response;
+    }      
     
-    
-	public String getOut_trade_no() {
-		return out_trade_no;
+
+
+	public String getCporderid() {
+		return cporderid;
 	}
 
-	public void setOut_trade_no(String out_trade_no) {
-		this.out_trade_no = out_trade_no;
+
+
+	public void setCporderid(String cporderid) {
+		this.cporderid = cporderid;
 	}
 
-	public String getTransaction_id() {
-		return transaction_id;
+
+
+	public String getOrderid() {
+		return orderid;
 	}
 
-	public void setTransaction_id(String transaction_id) {
-		this.transaction_id = transaction_id;
+
+
+	public void setOrderid(String orderid) {
+		this.orderid = orderid;
 	}
 
-	public int getTotal_fee() {
-		return total_fee;
+
+
+	public int getAppfee() {
+		return appfee;
 	}
 
-	public void setTotal_fee(int total_fee) {
-		this.total_fee = total_fee;
+
+
+	public void setAppfee(int appfee) {
+		this.appfee = appfee;
 	}
+
+
+
+	public javax.servlet.http.HttpServletResponse getResponse() {
+		return response;
+	}
+
+
+
+	public void setResponse(javax.servlet.http.HttpServletResponse response) {
+		this.response = response;
+	}
+
+
 
 	public String getTime_end() {
 		return time_end;
@@ -147,21 +158,46 @@ public class PayReturnServiceAction extends AbstractPublicBaseAction {
 		this.pay_type = pay_type;
 	}
 
+	public String getFeemode() {
+		return feemode;
+	}
+
+
+
+	public void setFeemode(String feemode) {
+		this.feemode = feemode;
+	}
+
+
+
 	@Override
     public String execute() {
 
         logger.debug("execute payreturn started. ");
         TOrder tOrder =new TOrder();
-        tOrder.setOrderno(out_trade_no);
-        tOrder.setTotalfee(total_fee);
-        tOrder.setTimeend(time_end);
-        tOrder.setTransactionid(transaction_id);
+        tOrder.setOrderno(cporderid);
+        tOrder.setTotalfee(appfee);
+        tOrder.setTimeend(DateUtils.getTimes());
+        tOrder.setTransactionid(orderid);
+        if("1000200010000000".equals(feemode)){
+        	pay_type=1;
+        } else if("1000200020000000".equals(feemode)) {
+        	pay_type=2;
+        }
         tOrder.setPaytype(pay_type);
         tOrder.setAttach(attach);
         tOrder.setModifytime(new Date());
         orderService.save(tOrder);
         logger.debug("execute payreturn normally end. ");
-        return JSON_RESULT;
+        //回调输出
+				try {
+					response.getWriter().write("0");
+					response.getWriter().flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        return null;
     }
 
     @Override
@@ -177,4 +213,5 @@ public class PayReturnServiceAction extends AbstractPublicBaseAction {
     public String getTempName() {
         return null;
     }
+    
 }

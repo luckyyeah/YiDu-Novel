@@ -69,22 +69,23 @@
       <a href="javascript:;" id="ask4" onMouseOver="repales_rell(4,5)">恐怖灵异</a>
       <a href="javascript:;" id="ask5" onMouseOver="repales_rell(5,5)">武侠修真</a>
    </p>
-
-    <#if recommendblock?exists>
+   <#list blocks?keys as key>
+    <#if recommendblock?exists &&key=="index_yanqing_tuijian">
           <@recommendblock articleList=blocks.index_yanqing_tuijian id="cttd1" style=""/>
     </#if>
-    <#if recommendblock?exists>
+    <#if recommendblock?exists && key=="index_xuanhuan_tuijian">
           <@recommendblock articleList=blocks.index_xuanhuan_tuijian id="cttd2" style="display:none;"/>
     </#if>
-    <#if recommendblock?exists>
+    <#if recommendblock?exists && key=="index_junshi_tuijian">
           <@recommendblock articleList=blocks.index_junshi_tuijian id="cttd3" style="display:none;"/>
     </#if>
-    <#if recommendblock?exists>
+    <#if recommendblock?exists && key=="index_kongbu_tuijian">
           <@recommendblock articleList=blocks.index_kongbu_tuijian id="cttd4" style="display:none;"/>
     </#if>
-    <#if recommendblock?exists>
+    <#if recommendblock?exists && key=="index_wuxia_tuijian">
           <@recommendblock articleList=blocks.index_wuxia_tuijian id="cttd5" style="display:none;"/>
     </#if>
+    </#list>
     <div id="index_ad_02"></div>
     <div class="clear"></div>
     <div id="J_random_board" class="random-board cf board">

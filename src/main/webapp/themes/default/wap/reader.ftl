@@ -10,7 +10,7 @@
     <div class="top3">
         <ul>
             <li><a class="button blue r3" href="<#if chapter.preChapterno ==0>${article.url}<#else>${chapter.preChapterUrl}</#if>">上一章</a></li>
-            <li><a class="button blue r3" href="${article.url}">简介</a></li>
+            <li><a class="button blue r3" href="/info/${(articleno/100)?int}/${articleno?c}.html">章节</a></li>
             <li><a class="button blue r3" href="${encodeURL("/bookcase")}">书架</a></li>
             <li><a class="button blue r3" href="javascript:return false;">设置</a></li>
             <li><a class="button blue r3" href="<#if chapter.nextChapterno ==0>${article.url}<#else>${chapter.nextChapterUrl}</#if>">下一章</a></li>

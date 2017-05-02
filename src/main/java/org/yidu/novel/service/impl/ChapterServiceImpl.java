@@ -65,7 +65,25 @@ public class ChapterServiceImpl extends HibernateSupportServiceImpl implements C
     public TChapter getByNo(int chapterno) {
         return this.get(TChapter.class, chapterno);
     }
+    @Override
+    public boolean checkVipByNo(int articleno,int chapterno,int vipstartno) {
+        StringBuffer hql = new StringBuffer();
+        List<Object> params = new ArrayList<Object>();
+        hql.append("FROM TChapter WHERE deleteflag=false and articleno = ? ");
+        // 追加小说号条件
+        params.add(articleno);
 
+        hql.append(" AND chapterno <= ?  AND chaptertype = 0 ORDER BY  chapterno  ");
+
+        // 追加章节号条件
+        params.add(chapterno);
+        // 只取一条记录
+        List<TChapter> chapterList = this.find(hql.toString(), params);
+        if (chapterList.size()>=vipstartno) {
+           return true;
+        }
+        return false;
+    }
     @Override
     public TChapter getNextChapter(int articleno, int chapterno, boolean isNext) {
         StringBuffer hql = new StringBuffer();

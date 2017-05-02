@@ -23,5 +23,7 @@ public class Const {
     public static final String WX_RED_PACK_URL = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 
     public static final String WX_PAY_CART_FILE = "";
+    
+    public static final int VIP_START_NO = 81;
 
 }

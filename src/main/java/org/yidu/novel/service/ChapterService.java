@@ -27,6 +27,18 @@ public interface ChapterService {
     TChapter getByNo(final int chapterno);
 
     /**
+     * 判断该章节是否是VIP章节
+     * 
+     * @param articleno
+     *            小说编号
+     * @param chapterno
+     *            章节编号
+     * @param vipstartno
+     *            VIP开始章节编号
+     * @return VIP标示
+     */
+    public boolean checkVipByNo(final int articleno,final int chapterno,final int vipstartno);
+    /**
      * 通过章节编号删除章节信息
      * 
      * @param chapterno

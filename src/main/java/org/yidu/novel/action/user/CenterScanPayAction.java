@@ -145,8 +145,8 @@ public class CenterScanPayAction extends AbstractPublicBaseAction {
         orderno = paytype.toString()+time+rand;
 				Map<String, String> params =new HashMap<String, String>();
 				params.put("mch_id", MCH_ID);
-				//params.put("total_fee",String.valueOf(chargefee*100));
-				params.put("total_fee",String.valueOf(chargefee/10));
+				params.put("total_fee",String.valueOf(chargefee*100));
+				//params.put("total_fee",String.valueOf(chargefee/10));
 				params.put("out_trade_no", orderno);
 				if("d".equals(paytype.toString())){
 					params.put("pay_type", "2");

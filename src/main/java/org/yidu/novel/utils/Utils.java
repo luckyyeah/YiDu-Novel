@@ -364,7 +364,10 @@ public class Utils {
      */
     public static void saveArticlespic(int articleno, File file, String fileName) throws Exception {
         String path = YiDuConstants.yiduConf.getString(YiDuConfig.RELATIVE_IAMGE_PATH);
-        path = ServletActionContext.getServletContext().getRealPath("/") + "/" + path + "/" + articleno
+/*        path = ServletActionContext.getServletContext().getRealPath("/") + "/" + path + "/" + articleno
+                / YiDuConstants.SUB_DIR_ARTICLES + "/" + articleno + "/" + articleno + "s."
+                + StringUtils.substringAfterLast(fileName, ".");*/
+        path = YiDuConstants.yiduConf.getString(YiDuConfig.ROOT_IMAGE_PATH) + "/" + path + "/" + articleno
                 / YiDuConstants.SUB_DIR_ARTICLES + "/" + articleno + "/" + articleno + "s."
                 + StringUtils.substringAfterLast(fileName, ".");
         File savefile = new File(path);

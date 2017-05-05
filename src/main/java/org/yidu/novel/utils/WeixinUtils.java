@@ -62,7 +62,13 @@ public class WeixinUtils {
                 .append(Const.WX_APP_ID).append("&redirect_uri=").append(encodedUrl)
                 .append("&response_type=code&scope=snsapi_base&state=1#wechat_redirect").toString();
     }
-
+    
+    public static String buildOAuthUserInfoUrl(String url) throws UnsupportedEncodingException {
+        String encodedUrl = URLEncoder.encode(url, "UTF8");
+        return new StringBuilder().append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
+                .append(Const.WX_APP_ID).append("&redirect_uri=").append(encodedUrl)
+                .append("&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect").toString();
+    }
 
     /**
      * Give body, parse result to `result` map
@@ -99,5 +105,62 @@ public class WeixinUtils {
         }
         return openId;
     }
+    /**
+     * Warning: This function need to visit weixin websites
+     *
+     * @return
+     */
+    public static Map getAccessTokenByCode(String code) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", Const.WX_APP_ID);
+        params.put("secret", Const.WX_APP_SECRET);
+        params.put("code", code);
+        params.put("grant_type", "authorization_code");
+        String body = HttpRequest.get("https://api.weixin.qq.com/sns/oauth2/access_token", params, true).body();
 
+        Map result = JSON.parseObject(body, Map.class);
+        String access_token = (String) result.get("access_token");
+        if (access_token == null) {
+            logger.error(body);
+        }
+        return result;
+    }
+    /**
+     * Warning: This function need to visit weixin websites
+     *
+     * @return
+     */
+    public static String getRefreshAccessToken(String refreshToken) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", Const.WX_APP_ID);
+        params.put("refresh_token", refreshToken);
+        params.put("grant_type", "refresh_token");
+        String body = HttpRequest.get("https://api.weixin.qq.com/sns/oauth2/refresh_token", params, true).body();
+       // System.out.println(body);
+        Map result = JSON.parseObject(body, Map.class);
+        String access_token = (String) result.get("access_token");
+        if (access_token == null) {
+            logger.error(body);
+        }
+        return access_token;
+    }
+    /**
+     * Warning: This function need to visit weixin websites
+     *
+     * @return
+     */
+    public static Map getUserInfo(String accessToken,String openid) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("openid", openid);
+        params.put("access_token", accessToken);
+        params.put("lang", "zh_CN");
+        String body = HttpRequest.get("https://api.weixin.qq.com/sns/userinfo", params, true).body();
+       // System.out.println(body);
+        Map result = JSON.parseObject(body, Map.class);
+        //System.out.println(result);
+        if (result == null) {
+            logger.error(body);
+        }
+        return result;
+    }
 }

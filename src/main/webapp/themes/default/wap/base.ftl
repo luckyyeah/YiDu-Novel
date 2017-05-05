@@ -9,7 +9,7 @@
       <@titleContent/>
 </#if>
 <meta name="author" content="www.51yd.org"/>
-<link rel="stylesheet" type="text/css" href="${contextPath}/themes/${themeName}/wap/css/mobilecss.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${contextPath}/themes/${themeName}/wap/css/mobilecss1.css" rel="stylesheet" />
 <script src="${contextPath}/themes/${themeName}/wap/js/lib/jquery-2.1.1.min.js"></script>
 <script src="${contextPath}/themes/${themeName}/wap/js/JX.js"></script>
 <script src="${contextPath}/themes/${themeName}/wap/js/Site.js"></script>
@@ -141,15 +141,22 @@
 </#macro>
 
 <#macro footer>
+<#if pageType != 4 >
 <div class="footer">
     <div class="version">
         ${getText("label.system.beianNo")} ${getText("label.system.analyticscode")}
     </div>
     <div class="copyright">${getText("label.system.copyright")}</div>
 </div>
+</#if>
+<div style="display:none"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261861206'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1261861206%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
 </#macro>
 
 	<script>
+	var isLogin = false;
+	<#if (loginUser??) || (user??)>
+	    isLogin =true;
+	</#if>
 	(function(){
 	    var bp = document.createElement('script');
 	    var curProtocol = window.location.protocol.split(':')[0];
@@ -161,7 +168,14 @@
 	    }
 	    var s = document.getElementsByTagName("script")[0];
 	    s.parentNode.insertBefore(bp, s);
+	   if(!isLogin){
+	   	 var ua = navigator.userAgent.toLowerCase();
+	   	  if(ua.indexOf("micromessenger") >0){
+	   			location.href = "/wxlogin?forwardUrl="+encodeURI(location.href);
+	    	}
+	   }
 	})();
+
 	</script>
 </body>  
 </html>

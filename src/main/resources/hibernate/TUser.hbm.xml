@@ -113,5 +113,8 @@
                 <comment>chargefee</comment>
             </column>
         </property>
+        <property name="headimgurl" type="string">
+            <column name="headimgurl" length="1024" />
+        </property>
     </class>
 </hibernate-mapping>

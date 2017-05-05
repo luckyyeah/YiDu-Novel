@@ -1,8 +1,7 @@
 package org.yidu.novel.action;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 
@@ -27,7 +26,7 @@ import org.yidu.novel.utils.WeixinUtils;
  * @version 1.1.9
  * @author shinpa.you
  */
-public class WXLoginUserAction extends AbstractPublicBaseAction {
+public class WXRegisterUserAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -72,20 +71,49 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
 
 	@SkipValidation
     @Override
-    @Action(value = "getopenid")
+    @Action(value = "wxregisteruser")
     public String execute() {
         logger.debug("execute normally end.");
         System.out.println("code="+code);
-       String openid= WeixinUtils.getOpenIdByCode(code);
-       System.out.println("openid="+openid);
+        Map accessTokenInfo= WeixinUtils.getAccessTokenByCode(code);
+        String accessToken =null;
+        String openid = null;
+        String refreshToken = null;
+        if(accessTokenInfo!=null){
+         accessToken = (String) accessTokenInfo.get("access_token");
+         openid = (String) accessTokenInfo.get("openid");
+         refreshToken = (String) accessTokenInfo.get("refresh_token");
+         accessToken= WeixinUtils.getRefreshAccessToken(refreshToken);
+        }
+       
+       System.out.println("openid="+openid +" access_token=" +accessToken);
+       
+       Map userInfo= WeixinUtils.getUserInfo(accessToken, openid);
        if(openid==null){
     	   openid=" ";
        }
+       String nickname =null;
+       String headimgurl =null;
+       String sex = null;
+       String unionid = null;
+       if(userInfo!=null){
+	        nickname = (String) userInfo.get("nickname");
+	        headimgurl = (String) userInfo.get("headimgurl");
+	        sex = String.valueOf(userInfo.get("sex"));
+	        unionid = (String) userInfo.get("unionid");
+       }
+       System.out.println("nickname=" +nickname);
+       System.out.println("headimgurl=" +headimgurl);
        TUser user =userService.findByOpenid(openid);
        if(user==null){
     	     user = new TUser();
     	     String rand= Utils.getRandomString(0,999999,10);
     	     user.setOpenid(openid);
+    	     user.setUsername(nickname);
+/*    	     if(sex!=null){
+    	    	 user.setSex(Short.parseShort(sex));
+    	     }*/
+    	     user.setHeadimgurl(headimgurl);
     	     user.setChargefee(0);
            user.setLoginid("wx_"+rand);
            user.setDeleteflag(false);
@@ -95,38 +123,22 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
            user.setType(YiDuConstants.UserType.NORMAL_USER);
            user.setActivedflag(true);
     	     userService.save(user);
-					 String backUri=this.getDomain()+"/wxregister?forwardUrl=";
-					 try {
-						 		backUri += URLEncoder.encode(forwardUrl, "UTF8");
-							} catch (UnsupportedEncodingException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-				   this.setForwardUrl(backUri);
-    	     
        } else{
-    	   if(user.getHeadimgurl()==null|| "".equals(user.getHeadimgurl()) || user.getUsername()==null ||"".equals(user.getUsername())){
-				 String backUri="/wxregister?forwardUrl=";
-				 try {
-					 		backUri += URLEncoder.encode(forwardUrl, "UTF8");
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			   
-    		   this.setForwardUrl(backUri);
-    	   } else{
-    	       // 正常登录
-    	       LoginManager.doLogin(user);
-    	       // 更新用户最后登录时间
-    	       user.setLastlogin(new Date());
-    	       Cookie cookie = CookieUtils.addUserCookie(user);
-    	       // 添加cookie到response中
-    	       ServletActionContext.getResponse().addCookie(cookie);
-    	   }
+    	    user.setUsername(nickname);
+/*   	     if(sex!=null){
+	    	   user.setSex(Short.parseShort(sex));
+	       }*/
+   	     user.setHeadimgurl(headimgurl);
+   	     userService.save(user);
        }
-
-		 
+       // 正常登录
+       LoginManager.doLogin(user);
+       // 更新用户最后登录时间
+       user.setLastlogin(new Date());
+       Cookie cookie = CookieUtils.addUserCookie(user);
+       // 添加cookie到response中
+       ServletActionContext.getResponse().addCookie(cookie);
+       System.out.println("register end" );
         return GOTO_REDIRECT;
     }
 	 

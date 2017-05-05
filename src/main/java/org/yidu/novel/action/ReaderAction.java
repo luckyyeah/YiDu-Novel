@@ -212,12 +212,21 @@ public class ReaderAction extends AbstractPublicBaseAction {
     @Override
     public String execute() {
     	logger.debug("execute start.");
+
     if(chapterService.checkVipByNo(articleno, chapterno, Const.VIP_START_NO)){
-        List<TChapterOrder>  vipOrderList= orderService.findVipOrder(LoginManager.getLoginUser().getUserno(),chapterno);
+        //判断是否登入
+  		 if (!LoginManager.isLoginFlag()) {
+         	  String backUrl = "/login";
+         		this.setForwardUrl(backUrl);
+         		return GOTO_REDIRECT;
+  		 } 
+    	List<TChapterOrder>  vipOrderList= orderService.findVipOrder(LoginManager.getLoginUser().getUserno(),chapterno);
         if(vipOrderList.size()<=0){
-        	  String backUrl = "/vip/"+(articleno / YiDuConstants.SUB_DIR_ARTICLES)+"/"+articleno+"/"+chapterno+".html";;
-        		this.setForwardUrl(backUrl);
-        		return GOTO_REDIRECT;
+        	{
+	        	  String backUrl = "/vip/"+(articleno / YiDuConstants.SUB_DIR_ARTICLES)+"/"+articleno+"/"+chapterno+".html";;
+	        		this.setForwardUrl(backUrl);
+	        		return GOTO_REDIRECT;
+        	}
         }
     }
     	loadData();

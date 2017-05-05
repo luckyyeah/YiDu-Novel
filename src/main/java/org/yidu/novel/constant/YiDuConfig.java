@@ -60,6 +60,11 @@ public class YiDuConfig {
      * 图片相对文件路径
      */
     public static final String RELATIVE_IAMGE_PATH = "relativeIamgePath";
+    
+    /**
+     * 图片根文件路径
+     */
+    public static final String ROOT_IMAGE_PATH = "rootImagePath";
     /**
      * 最大书签数
      */

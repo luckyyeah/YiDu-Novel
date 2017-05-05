@@ -8,8 +8,9 @@
 </#macro>
 
 <#macro content>
+  <div style="background: #ffffff;">
    <div class="Payone">
-   		   您好：<#if loginUser.loginid?length gt 20 >${loginUser.loginid?substring(0,20)!}...!<#else>${loginUser.loginid}! </#if>  余额：<b><#if loginUser.chargefee ??>${loginUser.chargefee?c}<#else>0</#if></b>书币
+   		   您好：<#if loginUser.username ??><#if loginUser.username?length gt 20 >${loginUser.username?substring(0,20)!}...!<#else>${loginUser.username}! </#if></#if>  余额：<b><#if loginUser.chargefee ??>${loginUser.chargefee?c}<#else>0</#if></b>书币
    </div>
    <div class="one pay_title"><h3>充值金额</h3>1元=100书币</div>
         <div class="hd">
@@ -23,7 +24,7 @@
         </ul>
     </div>
 
-
+<#--
 <div class="one pay_title"><h3>充值方式</h3></div>
 <br>
         <div class="hd02">
@@ -40,7 +41,10 @@
   <div class="money">
   	 应付金额：<b class="money_read" id="showmoney">50</b>元
   </div>
+-->
      <a href="javascript:;" onclick="submitpay()" class="Money_button">充值</a>
+<br>
+</div>
 <script>
         $(function(){
             $(".hd li ").each(function(index){
@@ -63,28 +67,16 @@
         })
 function submitpay()
 {
-	var paynum=$("#othermoney").val();
+	var paynum="";
 	if(paynum == "")
 	{
 		paynum=$(".on").attr('data-paynum');
 	}
-	if(paynum <30)
-	{
-		alert("最小金额为30元");
-		return true;
-	}
 	//var paytype = 'alipay';
 	paytype=$(".on02").attr('data-type');
 	var url = "/user/zzfpay/${articleno?c}/${chapterno?c}";
-	if(paytype == 'alipay')
-	{
-		 url+= "/d/"+paynum+".html";
-	}
-	if(paytype == 'wxsm')
-	{
-		 url+= "/e/"+paynum+".html";
-	}
 
+ 	url+= "/e/"+paynum+".html";
 	//alert(url);
 	//return true;
 	window.location.href=url;

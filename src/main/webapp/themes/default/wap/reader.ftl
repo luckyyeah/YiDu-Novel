@@ -7,13 +7,11 @@
 </#macro>  
 
 <#macro customizetop>
-    <div class="top3">
+    <div class="top3 readerheader">
         <ul>
-            <li><a class="button blue r3" href="<#if chapter.preChapterno ==0>${article.url}<#else>${chapter.preChapterUrl}</#if>">上一章</a></li>
-            <li><a class="button blue r3" href="/info/${(articleno/100)?int}/${articleno?c}.html">章节</a></li>
-            <li><a class="button blue r3" href="${encodeURL("/bookcase")}">书架</a></li>
-            <li><a class="button blue r3" href="javascript:return false;">设置</a></li>
-            <li><a class="button blue r3" href="<#if chapter.nextChapterno ==0>${article.url}<#else>${chapter.nextChapterUrl}</#if>">下一章</a></li>
+            <li><a  href="/"></a></li>
+            <li><a class="button blue r3" href="javascript:setShelf();">加入书架</a></li>
+            <li><a class="button blue r3 payfont" href="/user/centerpay">充值</a></li>
         </ul>
     </div>
 </#macro>
@@ -27,6 +25,11 @@
     </div>
     <script src="${contextPath}/themes/${themeName}/wap/js/lib/jquery.cookie.js"></script>
     <script language="JavaScript" type="text/JavaScript"> 
+    	  var _articleno = parseInt(${articleno?c});
+    	  var _userid = 0;
+        <#if loginUser?? >
+            _userid = parseInt(${loginUser.userno?c});
+        </#if>
         $(document).ready(function(){
             replaceWord();
             saveHistory();
@@ -73,7 +76,50 @@
                 "&rdquo;").replace(/&amp;dash;/gi, "&mdash;");
         document.getElementById("content").innerHTML = str;
     }
-    </script>
-    <@customizetop/>
+         // 设置书架
+        var setShelf = function () {
 
+            if (_userid == 0) {
+                Site.showLoginbox(function (uid) {
+                    _userid = uid;
+                    $.get("${encodeURL("/ajaxService")}", $.param({ action: "bookcaseisexists", articleno: _articleno })
+                        , function (res) {
+                            if (res.code == 0) {
+                                $("#lnkShelf").attr("data-value", res.result);
+                                $("#lnkShelf").html(res.result == 1 ? "取消收藏" : "加入书架");
+                            }
+                        });
+                });
+                return;
+            }
+
+            var temp = $("#lnkShelf");
+
+
+
+
+            temp.html("添加中...");
+            $.get("${encodeURL("/ajaxService")}", $.param({ action: "addbookcase", articleno: _articleno })
+                , function (res) {
+                    if (res.code == 0) {
+                        Util.Alert("成功加入书架");
+                        return;
+                    }
+                    $("#lnkShelf").html("加入书架");
+                    Util.Alert("加入书架时发生了错误");
+                });
+
+        }    
+    </script>
+
+
+</#macro>
+<#macro customizefooter>
+    <div class="top3 readerfooter">
+        <ul>
+            <li><a class="button blue r3" href="<#if chapter.preChapterno ==0>${article.url}<#else>${chapter.preChapterUrl}</#if>">上一章</a></li>
+            <li><a class="button blue r3" href="/info/${(articleno/100)?int}/${articleno?c}.html">章节目录</a></li>
+            <li><a class="button blue r3" href="<#if chapter.nextChapterno ==0>${article.url}<#else>${chapter.nextChapterUrl}</#if>">下一章</a></li>
+        </ul>
+    </div>
 </#macro>

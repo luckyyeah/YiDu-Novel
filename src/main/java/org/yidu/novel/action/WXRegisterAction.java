@@ -27,7 +27,7 @@ import org.yidu.novel.utils.WeixinUtils;
  * @version 1.1.9
  * @author shinpa.you
  */
-public class WXLoginAction extends AbstractPublicBaseAction {
+public class WXRegisterAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -64,14 +64,14 @@ public class WXLoginAction extends AbstractPublicBaseAction {
 
 	@SkipValidation
     @Override
-    @Action(value = "wxlogin")
+    @Action(value = "wxregister")
     public String execute() {
         logger.debug("execute normally end.");
-        	String backUri =this.getDomain()+"/getopenid";
+        	String backUri =this.getDomain()+"/wxregisteruser";
         	backUri+="?forwardUrl="+forwardUrl;
         String url;
 				try {
-					url = WeixinUtils.buildOAuthUrl(backUri);
+					url = WeixinUtils.buildOAuthUserInfoUrl(backUri);
 					 this.setForwardUrl(url);
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block

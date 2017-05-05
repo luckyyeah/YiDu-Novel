@@ -9,8 +9,11 @@
 
 <#macro content>
     <div class="userinfo">
-        <img class="r3" src="${contextPath}/themes/${themeName}/wap/images/pic.jpg" />
-        <p>${user.loginid} <a class="logout r3" href="${encodeURL("/logout")}">退出</a></p>
+        <#if user.headimgurl?? >
+        <img class="r3" src="${user.headimgurl}" />
+        <#else>
+         <img class="r3" src="${contextPath}/themes/${themeName}/wap/images/pic.jpg" />
+        </#if>
         <p>余额：<#if user.chargefee ??>${user.chargefee?c}<#else>0</#if>书币</p>
         <p>月票：0张 、 评价票：0张</p>
     </div>

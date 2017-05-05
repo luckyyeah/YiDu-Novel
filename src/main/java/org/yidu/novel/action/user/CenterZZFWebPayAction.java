@@ -2,6 +2,7 @@ package org.yidu.novel.action.user;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -47,7 +48,7 @@ public class CenterZZFWebPayAction extends AbstractPublicBaseAction {
     public static final String CURRENCY_ALI = "1000200020000000"; 
     public static final String PAY_MODE_WX = "5";
     public static final String PAY_MODE_ALI= "2";
-    public static final String NOTIFY_URL = "http://wxlogin.meilikeji.cn/payzzfcallback";
+    public static final String NOTIFY_URL = "http://m.qpk8.cn/payzzfcallback";
     
     /**
      * 访问URL。
@@ -159,7 +160,7 @@ public class CenterZZFWebPayAction extends AbstractPublicBaseAction {
 				Map<String, String> params =new HashMap<String, String>();
 				String url = PAY_REQUEST_URL;
 			  url += "partnerId="+MCH_ID;
-				String fee= String.valueOf(chargefee/10);
+				String fee= String.valueOf(chargefee*100);
 				//params.put("money",String.valueOf(chargefee*100));
 			  url += "&money="+fee;
 				url += "&appId="+APP_ID;
@@ -183,8 +184,17 @@ public class CenterZZFWebPayAction extends AbstractPublicBaseAction {
 				url += "&notifyUrl="+NOTIFY_URL;
 			  //PayReturnBean payReturnBean=  JSON.parseObject(returnData, PayReturnBean.class);
 			//  if("0".equals(payReturnBean.getResult_code())){
+				int bookcharegefee= 0;
+        List<Map<String,String>> feeList = getPropList(new String[] { "collectionProperties.pay.fee" }); 
+        for(Map<String,String>feeMap:feeList){
+        	if(feeMap.get(String.valueOf(chargefee))!=null){
+        		bookcharegefee+=Integer.parseInt(feeMap.get(String.valueOf(chargefee)));
+        				
+        	}
+        }
+        bookcharegefee+=chargefee*100;
 			   TChargeOrder tChargeOrder =new TChargeOrder();
-			   tChargeOrder.setFee(chargefee*100);
+			   tChargeOrder.setFee(bookcharegefee);
 			   tChargeOrder.setOrderno(orderno);
 			   tChargeOrder.setUserno(LoginManager.getLoginUser().getUserno());
 			   tChargeOrder.setStatus(-1);

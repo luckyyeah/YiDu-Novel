@@ -42,7 +42,7 @@ public abstract class BaseTUser  implements Serializable {
 	public static String PROP_BANKNO = "bankno";
 	public static String PROP_SEX = "sex";
 	public static String PROP_CHARGE_FEE = "chargefee";
-
+	public static String PROP_HEADIMGURL = "headimgurl";
 	// constructors
 	public BaseTUser () {
 		initialize();
@@ -92,7 +92,9 @@ public abstract class BaseTUser  implements Serializable {
 	private java.lang.Boolean activedflag;
 	private java.lang.String mailtoken;
 	private java.lang.Integer chargefee;
-
+	
+	private java.lang.String headimgurl;
+	
 
 	/**
 	 * Return the unique identifier of this class
@@ -548,6 +550,14 @@ public abstract class BaseTUser  implements Serializable {
 
 	public void setChargefee(java.lang.Integer chargefee) {
 		this.chargefee = chargefee;
+	}
+
+	public java.lang.String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(java.lang.String headimgurl) {
+		this.headimgurl = headimgurl;
 	}
 
 	public boolean equals (Object obj) {

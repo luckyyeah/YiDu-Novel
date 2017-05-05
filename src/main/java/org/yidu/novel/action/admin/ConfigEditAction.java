@@ -44,6 +44,11 @@ public class ConfigEditAction extends AbstractAdminEditBaseAction {
      * 图片文件路径
      */
     private String relativeIamgePath;
+    
+    /**
+     * 图片文件根路径
+     */
+    private String rootImagePath;
     /**
      * 模版名
      */
@@ -269,7 +274,15 @@ public class ConfigEditAction extends AbstractAdminEditBaseAction {
         this.relativeIamgePath = relativeIamgePath;
     }
 
-    public String getThemeName() {
+    public String getRootImagePath() {
+		return rootImagePath;
+	}
+
+	public void setRootImagePath(String rootImagePath) {
+		this.rootImagePath = rootImagePath;
+	}
+
+	public String getThemeName() {
         return themeName;
     }
 
@@ -1028,6 +1041,7 @@ public class ConfigEditAction extends AbstractAdminEditBaseAction {
         mobileUri = YiDuConstants.yiduConf.getString(YiDuConfig.MOBILE_URI);
         filePath = YiDuConstants.yiduConf.getString(YiDuConfig.FILE_PATH);
         relativeIamgePath = YiDuConstants.yiduConf.getString(YiDuConfig.RELATIVE_IAMGE_PATH);
+        rootImagePath =  YiDuConstants.yiduConf.getString(YiDuConfig.ROOT_IMAGE_PATH);
         cacheEffective = YiDuConstants.yiduConf.getBoolean(YiDuConfig.CACHE_EFFECTIVE, true);
         cleanUrl = YiDuConstants.yiduConf.getBoolean(YiDuConfig.CLEAN_URL, true);
         gzipEffective = YiDuConstants.yiduConf.getBoolean(YiDuConfig.GZIP_EFFECTIVE, true);

@@ -14,6 +14,7 @@
         <#else>
          <img class="r3" src="${contextPath}/themes/${themeName}/wap/images/pic.jpg" />
         </#if>
+        <p><#if user.username ??>${user.username}</#if> <a class="logout r3" href="${encodeURL("/logout")}">退出</a></p>
         <p>余额：<#if user.chargefee ??>${user.chargefee?c}<#else>0</#if>书币</p>
         <p>月票：0张 、 评价票：0张</p>
     </div>

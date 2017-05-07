@@ -115,13 +115,14 @@ public class WXRegisterUserAction extends AbstractPublicBaseAction {
     	     }*/
     	     user.setHeadimgurl(headimgurl);
     	     user.setChargefee(0);
-           user.setLoginid("wx_"+rand);
+           user.setLoginid(openid);
            user.setDeleteflag(false);
            user.setRegdate(new Date());
            user.setLastlogin(new Date());
            user.setPassword(Utils.convert2MD5(openid));
            user.setType(YiDuConstants.UserType.NORMAL_USER);
            user.setActivedflag(true);
+           user.setBranch("2");
     	     userService.save(user);
        } else{
     	    user.setUsername(nickname);
@@ -129,6 +130,7 @@ public class WXRegisterUserAction extends AbstractPublicBaseAction {
 	    	   user.setSex(Short.parseShort(sex));
 	       }*/
    	     user.setHeadimgurl(headimgurl);
+   	     user.setBranch("3");
    	     userService.save(user);
        }
        // 正常登录

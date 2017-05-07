@@ -82,19 +82,24 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
     	   openid=" ";
        }
        TUser user =userService.findByOpenid(openid);
-       if(user==null){
+       if(user==null && LoginManager.getLoginUser()==null){
     	     user = new TUser();
     	     String rand= Utils.getRandomString(0,999999,10);
     	     user.setOpenid(openid);
     	     user.setChargefee(0);
-           user.setLoginid("wx_"+rand);
+           user.setLoginid(openid);
            user.setDeleteflag(false);
            user.setRegdate(new Date());
            user.setLastlogin(new Date());
            user.setPassword(Utils.convert2MD5(openid));
            user.setType(YiDuConstants.UserType.NORMAL_USER);
            user.setActivedflag(true);
+           user.setBranch("1");
+           try{
     	     userService.save(user);
+           }catch(Exception ex){
+        	   
+           }
 					 String backUri=this.getDomain()+"/wxregister?forwardUrl=";
 					 try {
 						 		backUri += URLEncoder.encode(forwardUrl, "UTF8");
@@ -105,24 +110,26 @@ public class WXLoginUserAction extends AbstractPublicBaseAction {
 				   this.setForwardUrl(backUri);
     	     
        } else{
-    	   if(user.getHeadimgurl()==null|| "".equals(user.getHeadimgurl()) || user.getUsername()==null ||"".equals(user.getUsername())){
-				 String backUri="/wxregister?forwardUrl=";
-				 try {
-					 		backUri += URLEncoder.encode(forwardUrl, "UTF8");
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			   
-    		   this.setForwardUrl(backUri);
+    	   if(user!=null){
+	    	   if(user.getHeadimgurl()==null|| "".equals(user.getHeadimgurl()) || user.getUsername()==null ||"".equals(user.getUsername())){
+					 String backUri="/wxregister?forwardUrl=";
+					 try {
+						 		backUri += URLEncoder.encode(forwardUrl, "UTF8");
+							} catch (UnsupportedEncodingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	    		   this.setForwardUrl(backUri);
+	    	   } 
+           // 正常登录
+           LoginManager.doLogin(user);
+           // 更新用户最后登录时间
+           user.setLastlogin(new Date());
+           Cookie cookie = CookieUtils.addUserCookie(user);
+           // 添加cookie到response中
+           ServletActionContext.getResponse().addCookie(cookie);
     	   } else{
-    	       // 正常登录
-    	       LoginManager.doLogin(user);
-    	       // 更新用户最后登录时间
-    	       user.setLastlogin(new Date());
-    	       Cookie cookie = CookieUtils.addUserCookie(user);
-    	       // 添加cookie到response中
-    	       ServletActionContext.getResponse().addCookie(cookie);
+    		   user =LoginManager.getLoginUser();
     	   }
        }
 

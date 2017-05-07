@@ -215,7 +215,11 @@ public class ChapterListAction extends AbstractPublicBaseAction {
 
     @Override
     protected int getRecommondCategory() {
-        return article.getCategory() == null ? 0 : article.getCategory();
+    		if(article!=null){
+    			return article.getCategory() == null ? 0 : article.getCategory();
+    		}else{
+    			return 0;
+    		}
     }
 
     @Override

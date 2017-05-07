@@ -238,8 +238,8 @@ public class ArticleServiceImpl extends HibernateSupportServiceImpl implements A
         // 为了提升性能，没有用hibernate，写了nactiveSQL
         sql.append(" SELECT * ");
         sql.append(" FROM  ( ");
-        sql.append("    SELECT DISTINCT 1 + floor(random() * (select max(articleno) from t_article) )::integer AS articleno ");
-        sql.append("    FROM   generate_series(1, 50) g ");
+        sql.append("    SELECT DISTINCT 1 + floor(RAND() * (select max(articleno) from t_article) ) AS articleno ");
+        sql.append("    FROM   (select     @num:=@num+1  from   t_chapter,   (select @num:=0) aa  LIMIT 50 ) g ");
         sql.append("    ) r ");
         sql.append(" JOIN   t_article USING (articleno) ");
         sql.append(" where  deleteflag = false ");

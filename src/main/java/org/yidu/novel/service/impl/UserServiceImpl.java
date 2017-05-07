@@ -26,7 +26,7 @@ public class UserServiceImpl extends HibernateSupportServiceImpl implements User
 
     @Override
     public TUser findByLoginInfo(final String loginid, final String password) {
-        String sql = "FROM TUser where loginid = ? AND password = ? AND deleteflag=false";
+        String sql = "FROM TUser where loginid = ? AND password = ? AND deleteflag=0";
         List<Object> params = new ArrayList<Object>();
         params.add(loginid);
         params.add(password);
@@ -39,7 +39,7 @@ public class UserServiceImpl extends HibernateSupportServiceImpl implements User
 
     @Override
     public TUser findByLoginInfoByJDBC(final String loginid, final String password) {
-        String sql = "select * from t_user where loginid = ? AND password = ? AND deleteflag=false";
+        String sql = "select * from t_user where loginid = ? AND password = ? AND deleteflag=0";
         List<Object> params = new ArrayList<Object>();
         params.add(loginid);
         params.add(password);
@@ -55,7 +55,7 @@ public class UserServiceImpl extends HibernateSupportServiceImpl implements User
     public List<TUser> find(final UserSearchBean searchBean) {
         StringBuilder hql = new StringBuilder();
         List<Object> params = new ArrayList<Object>();
-        hql.append("FROM TUser WHERE deleteflag=false ");
+        hql.append("FROM TUser WHERE deleteflag=0 ");
         buildCondition(searchBean, hql, params);
 
         Pagination pagination = searchBean.getPagination();
@@ -92,7 +92,7 @@ public class UserServiceImpl extends HibernateSupportServiceImpl implements User
     public int getCount(UserSearchBean searchBean) {
         StringBuilder hql = new StringBuilder();
         List<Object> params = new ArrayList<Object>();
-        hql.append("SELECT count(*) FROM TUser WHERE deleteflag=false ");
+        hql.append("SELECT count(*) FROM TUser WHERE deleteflag=0 ");
         buildCondition(searchBean, hql, params);
         return this.getIntResult(hql.toString(), params);
     }
@@ -161,7 +161,7 @@ public class UserServiceImpl extends HibernateSupportServiceImpl implements User
 
     @Override
     public TUser findByOpenid(String openid) {
-        String sql = "FROM TUser WHERE openid = ? AND deleteflag=false";
+        String sql = "FROM TUser WHERE openid = ? AND deleteflag=0";
         List<Object> params = new ArrayList<Object>();
         params.add(openid);
         List<TUser> userinfoList = this.find(sql, params);

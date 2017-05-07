@@ -3,11 +3,16 @@
                                          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory name="yiduSessionFactory">
-		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+			<!-- 	<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.password">postgres</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/yidu</property>
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">ZXChjk12345$@%</property>
+		<property name="hibernate.connection.url">jdbc:mysql://rm-bp1a1bb8o9z5q0mr0o.mysql.rds.aliyuncs.com:3306/yuyi</property>
+		<property name="hibernate.connection.username">mlmysqluser</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.format_sql">true</property>
 		<property name="show_sql">true</property>
 

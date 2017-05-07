@@ -40,6 +40,7 @@ public class ErrorInterceptor extends AbstractInterceptor {
             String rtn = invocation.invoke();
             return rtn;
         } catch (Throwable th) {
+        	 th.printStackTrace();
             AbstractBaseAction action = (AbstractBaseAction) invocation.getAction();
             if (th instanceof IOException) {
                 logger.debug("IOException occured! may the user stop downloading, do not care.");

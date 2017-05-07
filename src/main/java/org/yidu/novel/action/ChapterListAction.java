@@ -210,7 +210,11 @@ public class ChapterListAction extends AbstractPublicBaseAction {
 
     @Override
     protected int getRecommondArticleno() {
+    	if(article!=null){
         return article.getArticleno();
+    	}else{
+    		 return 0;
+    	}
     }
 
     @Override

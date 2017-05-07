@@ -10,7 +10,7 @@
 					  <generator class="identity"/>
         </id>
         <property name="loginid" type="string">
-            <column name="loginid" length="32" not-null="true">
+            <column name="loginid" length="100" not-null="true">
                 <comment>loginid</comment>
             </column>
         </property>

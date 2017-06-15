@@ -29,7 +29,7 @@ import org.yidu.novel.utils.WeixinUtils;
  * @version 1.1.9
  * @author shinpa.you
  */
-public class PayCallBackZZFAction extends AbstractPublicBaseAction {
+public class PayCallBackAction extends AbstractPublicBaseAction {
     /**
      * 串行化版本统一标识符
      */
@@ -66,7 +66,7 @@ public class PayCallBackZZFAction extends AbstractPublicBaseAction {
 
 	@SkipValidation
     @Override
-    @Action(value = "payzzfcallback")
+    @Action(value = "paycallback")
     public String execute() {
         logger.debug("execute normally end.");
 				try {

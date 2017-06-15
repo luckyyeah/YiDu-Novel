@@ -74,9 +74,9 @@ function submitpay()
 	}
 	//var paytype = 'alipay';
 	paytype=$(".on02").attr('data-type');
-	var url = "/user/centerzzfpay";
+	var url = "/user/centerpublicpay";
 
-  url+= "/e/"+paynum+".html";
+  url+= "/j/"+paynum+".html";
 	//alert(url);
 	//return true;
 	window.location.href=url;

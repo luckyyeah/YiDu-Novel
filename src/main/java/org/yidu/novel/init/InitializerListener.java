@@ -69,6 +69,7 @@ public class InitializerListener implements ServletContextListener {
 
             logger.info("Initialize successfully.");
         } catch (Exception e) {
+        	e.printStackTrace();
             logger.error(e.getMessage(), e);
         }
     }

@@ -18,6 +18,7 @@ jcs.default.elementattributes.IsLateral=true
 jcs.auxiliary.DC=org.apache.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory
 jcs.auxiliary.DC.attributes=org.apache.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes
 jcs.auxiliary.DC.attributes.DiskPath=${user.dir}/jcs_swap
+#jcs.auxiliary.DC.attributes.DiskPath=d:\\jcs_swap
 jcs.auxiliary.DC.attributes.MaxPurgatorySize=5000
 jcs.auxiliary.DC.attributes.MaxKeySize=5000
 jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount=150000

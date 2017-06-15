@@ -124,6 +124,18 @@
 		<to last="true">/user/zzfpay/$1/$2/$3/$4\.html</to>
 	</outbound-rule>
 	<!-- 掌宜支付充值充值结束 -->
+<!-- 公众号支付充值开始 -->
+
+	<rule>
+		<from>^/user/publicpay/(\d*)/(\d*)/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/publicpay\?articleno=$1&amp;chapterno=$2&amp;paytype=$3&amp;chargefee=$4</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/publicpay\?articleno=(\d*)&amp;chapterno=(\d*)&amp;paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/publicpay/$1/$2/$3/$4\.html</to>
+	</outbound-rule>
+	<!-- 掌宜支付充值充值结束 -->
 	  <!-- 用户中心扫码充值开始 -->
 
 	<rule>
@@ -148,6 +160,18 @@
 		<to last="true">/user/centerzzfpay/$1/$2/.html</to>
 	</outbound-rule>
 	<!-- 扫码掌宜支付充值结束 -->
+	<!-- 用户中公众号支付充值开始 -->
+
+	<rule>
+		<from>^/user/centerpublicpay/(.+?)/(\d*)\.html$</from>
+		<to last="true">/user/centerpublicpay\?paytype=$1&amp;chargefee=$2</to>
+	</rule>
+
+	<outbound-rule>
+		<from>^/user/centerpublicpay\?paytype=(.+?)&amp;chargefee=(\d*)(;jsessionid=.*)?$</from>
+		<to last="true">/user/centerpublicpay/$1/$2/.html</to>
+	</outbound-rule>
+	<!-- 扫码公众号支付充值结束 -->
 	<!-- 单本阅读页 -->
 	<!-- 阅读页开始 -->
 

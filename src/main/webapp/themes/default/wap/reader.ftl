@@ -21,6 +21,8 @@
        <strong class="l jieqi_title">${chapter.chaptername}</strong>
         <div class="mainContenr"   id="content">
             <#if chapter.content??>${chapter.content}</#if>
+           <br>
+           <br>
         </div>
     </div>
     <script src="${contextPath}/themes/${themeName}/wap/js/lib/jquery.cookie.js"></script>

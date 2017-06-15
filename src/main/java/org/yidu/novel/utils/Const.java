@@ -24,6 +24,6 @@ public class Const {
 
     public static final String WX_PAY_CART_FILE = "";
     
-    public static final int VIP_START_NO = 21;
+    public static final int VIP_START_NO = 20;
 
 }

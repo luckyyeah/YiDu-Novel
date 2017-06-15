@@ -149,7 +149,7 @@
     <div class="copyright">${getText("label.system.copyright")}</div>
 </div>
 </#if>
-<div style="display:none"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261861206'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1261861206%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
+<div style="display:none"><script src="https://s95.cnzz.com/z_stat.php?id=1261861206&web_id=1261861206" language="JavaScript"></script></div>
 </#macro>
 
 	<script>

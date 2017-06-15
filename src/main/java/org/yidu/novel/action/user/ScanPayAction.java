@@ -34,7 +34,7 @@ public class ScanPayAction extends AbstractPublicBaseAction {
      * 功能名称。
      */
     public static final String NAME = "scanpay";
-    public static final String SCAN_REQUEST_URL = "http://pro.jkys567.com:888/lpay/scanpay/gateway";
+    public static final String SCAN_REQUEST_URL = "http://pro.jkys567.com:888/lpay/pay/gateway";
     public static final String MCH_ID = "10009";
     /**
      * 访问URL。
@@ -148,11 +148,7 @@ public class ScanPayAction extends AbstractPublicBaseAction {
 				params.put("total_fee",String.valueOf(chargefee*100));
 				//params.put("total_fee",String.valueOf(chargefee/10));
 				params.put("out_trade_no", orderno);
-				if("d".equals(paytype.toString())){
-					params.put("pay_type", "2");
-				}else{
-					params.put("pay_type", "1");
-				}
+				params.put("pay_type", paytype);
 				String returnData= Utils.doPost(SCAN_REQUEST_URL, params,"utf-8");
 				logger.debug(returnData);
 			  PayReturnBean payReturnBean=  JSON.parseObject(returnData, PayReturnBean.class);

@@ -19,13 +19,20 @@
             </a>
             </#if>
         </div>
-        <ul id="ulChange${id}" class="list">
+      
         <#list articleList as article>
             <#if article_index !=0>    
-                <li><a href="${article.url}">${article.categoryStr}：${article.articlename?html}</a></li>
+              <div id="divChange${id}" class="info m2">
+            <a href="${article.url}">
+                <img src="${article.imgUrl}" />
+                <h3>${article.articlename?html}</h3>
+                <p>作者：${article.author?html}</p>
+                <p>${article.introForHtml}</p>
+            </a>
+               </div>
             </#if>
         </#list>
-        </ul>
+       
 </div>
 </#macro>
 
@@ -47,7 +54,7 @@
     </#if>
     
     <#if recommendblock?exists && key=="index_yanqing_tuijian">
-          <@recommendblock articleList=blocks.index_yanqing_tuijian title="火辣H文" id="2" style="m10"/>
+          <@recommendblock articleList=blocks.index_yanqing_tuijian title="火辣言情" id="2" style="m10"/>
     </#if>
     
      <#if recommendblock?exists  && key=="index_xuanhuan_tuijian">
